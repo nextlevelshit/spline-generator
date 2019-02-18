@@ -46,4 +46,27 @@ export class MathService {
   public radians(a: Point, b: Point) {
     return Math.atan2(b.y - a.y, b.x - a.x);
   }
+
+  /**
+   * Generator function for altering a point from side
+   * to side while increasing its distance from the
+   * starting number.
+   *
+   * @param space number
+   * @param vector number
+   * @param startPositive boolean
+   */
+  public *shiftNumber(
+    space: number,
+    vector: number,
+    startPositive: boolean = true
+  ): Iterator<number> {
+    let current = 0;
+    let index = 0;
+    const sign = this.flipSign(startPositive);
+
+    while (true) {
+      yield current = sign.next().value * index++ * space + current;
+    }
+  }
 }

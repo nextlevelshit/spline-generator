@@ -84,8 +84,10 @@ export class MatrixService {
   }
 
   public get entries(): any {
-    const marginX = this.config.margin.canvas.x + this.config.margin.canvas.x;
-    const marginY = this.config.margin.canvas.y + this.config.margin.canvas.y;
+    const entryShift = Math.floor(this.config.graphs / 2);
+    const entryWidth = this.config.margin.entry * entryShift;
+    const marginX = this.config.margin.canvas.x + entryWidth;
+    const marginY = this.config.margin.canvas.y + entryWidth;
     const radiansIn = this.config.vector.in.direction * this.math.τ;
     const radiansOut = this.config.vector.out.direction * this.math.τ;
 

@@ -58,15 +58,14 @@ export class CurveService {
 
   public setEntryPoints(): void {
     this.curves.forEach((curve, i, curves) => {
-      curves[i].points.unshift(this.points.entryPointIn);
-      curves[i].points.push(this.points.entryPointOut);
-    });
-  }
+      const entryIn = this.points.entryPointIn;
+      const entryOut = this.points.entryPointOut;
 
-  public setVectorPoints(): void {
-    this.curves.forEach((curve, i, curves) => {
-      curves[i].points.unshift(this.points.vectorPointIn);
-      curves[i].points.push(this.points.vectorPointOut);
+      curves[i].points.unshift(this.points.vectorPointIn(entryIn));
+      curves[i].points.push(this.points.vectorPointOut(entryOut));
+
+      curves[i].points.unshift(entryIn);
+      curves[i].points.push(entryOut);
     });
   }
 
@@ -79,7 +78,7 @@ export class CurveService {
     const spreads = siblings.map(i => {
       return this.points.spreadOrthogonal(curve[i]);
     });
-    // spread medians
+    // Spread medians
     return d3.range(this.config.splines).map(() => {
       // Reduce payload of point's parameters
       const points = curve.slice().map(point => {

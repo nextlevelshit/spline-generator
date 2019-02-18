@@ -24,9 +24,9 @@ export class NlsSplineGeneratorComponent implements OnChanges {
     private el: ElementRef,
     private matrix: MatrixService,
     private config: ConfigService,
-    private points: PointService,
     private curves: CurveService,
-    private graphs: GraphService
+    private graphs: GraphService,
+    private points: PointService
   ) {
   }
 
@@ -68,11 +68,8 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   private resetCurves(): void {
     this.curves.distributePoints();
     this.curves.prepareAnimationPaths();
-    this.curves.setVectorPoints();
     this.curves.setEntryPoints();
     this.curves.appendRadians();
-
-    console.log(this.curves.all);
   }
   /**
    * Reset matrix and save canvas HTML element

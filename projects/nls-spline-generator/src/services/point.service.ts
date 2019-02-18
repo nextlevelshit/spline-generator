@@ -12,6 +12,8 @@ export class PointService {
 
   private entryShiftIn: Iterator<Point>;
   private entryShiftOut: Iterator<Point>;
+  private previouseEntryPointIn: Point;
+  private previouseEntryPointOut: Point;
 
   constructor(
     private config: ConfigService,
@@ -19,16 +21,6 @@ export class PointService {
     private math: MathService,
     private points: PointService
   ) {
-    // this.entryShiftIn = this.points.shiftPoint(
-    //   this.matrix.entries.in,
-    //   this.config.margin.entry,
-    //   1
-    // );
-    // this.entryShiftOut = this.points.shiftPoint(
-    //   this.matrix.entries.out,
-    //   this.config.margin.entry,
-    //   1
-    // );
   }
 
   private vectorPoint(
@@ -47,36 +39,51 @@ export class PointService {
     };
   }
 
+  private prepareEntryPoints(): void {
+    this.entryShiftIn = this.shiftEntryPoint(
+      this.matrix.entries.in,
+      this.config.vector.in.direction
+    );
+    this.entryShiftOut = this.shiftEntryPoint(
+      this.matrix.entries.out,
+      this.config.vector.out.direction
+    );
+  }
+
+  private *shiftEntryPoint(
+    point: Point,
+    vector: number,
+    startPositive: boolean = true
+  ) {
+    const genShiftX = this.math.shiftNumber(this.config.margin.entry, vector, startPositive);
+    const genShiftY = this.math.shiftNumber(this.config.margin.entry, vector, startPositive);
+
+    while (true) {
+      yield {
+        x:
+          Math.cos(vector * this.math.τ)
+          * genShiftX.next().value
+          + point.x,
+        y:
+          Math.sin(vector * this.math.τ)
+          * genShiftY.next().value
+          + point.y,
+        flag: {
+          entry: true
+        }
+      };
+    }
+  }
+
   public distribute(): Point[] {
+    this.prepareEntryPoints();
+
     return d3.range(this.config.points).map(() => {
       return {
         x: this.randomX,
         y: this.randomY
       };
     });
-  }
-
-  public *pointsOnPath(
-    path: any,
-    ticksAverage: number = 500,
-    clockwise: boolean = Math.random() >= 0.5,
-    start: number = Math.random()
-  ) {
-    const totalLength = path.getTotalLength();
-    const direction = (clockwise) ? totalLength : 0;
-    const ticks = Math.floor(
-      ticksAverage + ticksAverage * d3.randomNormal(0, 0.2)()
-    );
-    const pointsList = d3.range(ticks).map((n) => {
-      const step = n * totalLength / ticks;
-      return path.getPointAtLength(Math.abs(direction - step));
-    });
-
-    let i = Math.floor(start * totalLength);
-
-    while (true) {
-      yield pointsList[i++ % ticks];
-    }
   }
 
   public appendRadians(points: Point[]): Point[] {
@@ -107,57 +114,64 @@ export class PointService {
     };
   }
 
+  public *pointsOnPath(
+    path: any,
+    ticksAverage: number = 500,
+    clockwise: boolean = Math.random() >= 0.5,
+    start: number = Math.random()
+  ) {
+    const totalLength = path.getTotalLength();
+    const direction = (clockwise) ? totalLength : 0;
+    const ticks = Math.floor(
+      ticksAverage + ticksAverage * d3.randomNormal(0, 0.2)()
+    );
+    const pointsList = d3.range(ticks).map((n) => {
+      const step = n * totalLength / ticks;
+      return path.getPointAtLength(Math.abs(direction - step));
+    });
+
+    let i = Math.floor(start * totalLength);
+
+    while (true) {
+      yield pointsList[i++ % ticks];
+    }
+  }
+
   public *spreadOrthogonal(
     start: Point,
     radians?: number
   ) {
     const sign = this.math.flipSign();
-    let spacing = this.config.margin.spline;
-    let point = start;
     let i = 0;
     // First check if point has its own radians,
     // otherwise take from arguments or random
     radians = (radians || radians === 0)
       ? radians
-      : (point.radians)
-        ? point.radians
+      : (start.radians)
+        ? start.radians
         : d3.randomUniform(0, 2)();
 
     while (true) {
+      const spacing = this.config.margin.spline;
       const nextSpacing = sign.next().value * spacing * i++;
-
-      point = this.shiftPoint(point, nextSpacing, radians);
-
-      yield point;
-      // spacing *= 0.95;
-      spacing *= 1.01;
+      yield start = this.shiftPoint(start, nextSpacing, radians);
     }
   }
 
   public get entryPointIn(): Point {
-    return {
-      ...this.matrix.entries.in,
-      flag: {
-        entry: true
-      }
-    };
+    return this.entryShiftIn.next().value;
   }
 
   public get entryPointOut(): Point {
-    return {
-      ...this.matrix.entries.out,
-      flag: {
-        entry: true
-      }
-    };
+    return this.entryShiftOut.next().value;
   }
 
-  public get vectorPointIn(): Point {
-    return this.vectorPoint(this.entryPointIn, this.config.vector.in);
+  public vectorPointIn(entryPoint: Point): Point {
+    return this.vectorPoint(entryPoint, this.config.vector.in);
   }
 
-  public get vectorPointOut(): Point {
-    return this.vectorPoint(this.entryPointOut, this.config.vector.out);
+  public vectorPointOut(entryPoint: Point): Point {
+    return this.vectorPoint(entryPoint, this.config.vector.out);
   }
 
   private get randomX(): number {
