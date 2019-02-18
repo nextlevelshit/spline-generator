@@ -79,9 +79,14 @@ export class PointService {
     this.prepareEntryPoints();
 
     return d3.range(this.config.points).map(() => {
-      return {
+      const point = {
         x: this.randomX,
         y: this.randomY
+      };
+
+      return {
+        ...point,
+        distanceToCenter: this.math.Δ(point, this.matrix.center)
       };
     });
   }

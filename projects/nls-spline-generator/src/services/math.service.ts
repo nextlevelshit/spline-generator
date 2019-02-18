@@ -44,7 +44,7 @@ export class MathService {
    * @param b Point
    */
   public radians(a: Point, b: Point) {
-    return Math.atan2(b.y - a.y, b.x - a.x);
+    return Math.atan2(Math.abs(b.y - a.y), Math.abs(b.x - a.x));
   }
 
   /**

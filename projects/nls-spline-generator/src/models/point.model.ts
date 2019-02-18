@@ -23,4 +23,8 @@ export interface Point {
    * animation trail.
    */
   generator?: Iterator<Point>;
+  /**
+   * Distance between point and center of matrix
+   */
+  distanceToCenter?: number;
 }

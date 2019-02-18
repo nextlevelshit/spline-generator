@@ -12,10 +12,10 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 4,
+      points: 6,
       graphs: 2,
-      splines: 8,
-      overshoot: 0.5,
+      splines: 10,
+      overshoot: 0.7,
       margin: {
         spline: 50,
         entry: 5,
