@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "nls-spline-generator": [
+        "dist/nls-spline-generator"
+      ],
+      "nls-spline-generator/*": [
+        "dist/nls-spline-generator/*"
+      ]
+    }
   }
 }

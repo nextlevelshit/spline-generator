@@ -153,6 +153,41 @@
           }
         }
       }
+    },
+    "nls-spline-generator": {
+      "root": "projects/nls-spline-generator",
+      "sourceRoot": "projects/nls-spline-generator/src",
+      "projectType": "library",
+      "prefix": "nls",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/nls-spline-generator/tsconfig.lib.json",
+            "project": "projects/nls-spline-generator/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/nls-spline-generator/src/test.ts",
+            "tsConfig": "projects/nls-spline-generator/tsconfig.spec.json",
+            "karmaConfig": "projects/nls-spline-generator/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/nls-spline-generator/tsconfig.lib.json",
+              "projects/nls-spline-generator/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "spline-generator"

@@ -1,3 +1,4 @@
+import { Config } from './../../projects/nls-spline-generator/src/models/config.model';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'spline-generator';
+
+  public config: Config;
+
+  constructor() {
+    this.config = {
+      points: 6,
+      splines: 2,
+      margin: {
+        spline: 20,
+        entry: 4
+      }
+    };
+  }
 }
