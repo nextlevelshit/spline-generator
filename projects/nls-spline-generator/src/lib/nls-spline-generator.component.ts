@@ -1,3 +1,4 @@
+import { CurveService } from './../services/curve.service';
 import { PointService } from './../services/point.service';
 import { Curve } from './../models/curve.model';
 import { MatrixService } from './../services/matrix.service';
@@ -14,7 +15,7 @@ import * as d3 from 'd3';
 })
 export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
 
-  private curves: Curve[];
+  // private curves: Curve[];
 
   @Input() configInput: Config;
   @ViewChild('matrix') matrixEl;
@@ -22,7 +23,8 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
   constructor(
     private matrix: MatrixService,
     private config: ConfigService,
-    private points: PointService
+    private points: PointService,
+    private curves: CurveService
   ) {
   }
 
@@ -33,12 +35,10 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.resetConfig();
     this.resetMatrix();
-    this.setOvershoot();
-    this.distributePoints();
-    this.setEntryPoints();
-    this.setVectorPoints();
+    // this.setOvershoot();
+    this.resetCurves();
 
-    console.log(this.curves);
+    console.log(this.curves.all);
   }
 
   private resetConfig(): void {
@@ -49,22 +49,9 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
     this.matrix.reset(this.matrixEl.nativeElement);
   }
 
-  private setOvershoot(): void {
-    this.matrix.overshoot = this.config.overshoot;
+  private resetCurves(): void {
+    this.curves.distributePoints();
+    this.curves.setVectorPoints();
+    this.curves.setEntryPoints();
   }
-
-  private distributePoints(): void {
-    this.curves = d3.range(this.config.splines).map(() => {
-      return this.points.distribute();
-    });
-  }
-
-  private setEntryPoints(): void {
-
-  }
-
-  private setVectorPoints(): void {
-
-  }
-
 }

@@ -23,13 +23,53 @@ export class PointService {
     });
   }
 
-  public get randomX(): number {
-    const radius = this.matrix.width / 2 * this.matrix.overshoot;
+  public get entryPointIn(): Point {
+    return {
+      x: 0,
+      y: 0,
+      flag: {
+        entry: true
+      }
+    };
+  }
+
+  public get entryPointOut(): Point {
+    return {
+      x: 0,
+      y: 0,
+      flag: {
+        entry: true
+      }
+    };
+  }
+
+  public get vectorPointIn(): Point {
+    return {
+      x: 0,
+      y: 0,
+      flag: {
+        vector: true
+      }
+    };
+  }
+
+  public get vectorPointOut(): Point {
+    return {
+      x: 0,
+      y: 0,
+      flag: {
+        vector: true
+      }
+    };
+  }
+
+  private get randomX(): number {
+    const radius = this.matrix.width / 2 * this.config.overshoot;
     return this.matrix.center.x + d3.randomNormal()() * radius;
   }
 
-  public get randomY(): number {
-    const radius = this.matrix.height / 2 * this.matrix.overshoot;
+  private get randomY(): number {
+    const radius = this.matrix.height / 2 * this.config.overshoot;
     return this.matrix.center.x + d3.randomNormal()() * radius;
   }
 }

@@ -18,8 +18,7 @@ export class MatrixService {
   constructor() {
     this.defaults = {
       width: null,
-      height: null,
-      overshoot: 1
+      height: null
     };
   }
 
@@ -36,14 +35,6 @@ export class MatrixService {
       x: this.matrix.width / 2,
       y: this.matrix.height / 2
     };
-  }
-
-  public set overshoot(input: number) {
-    this.matrix.overshoot = input;
-  }
-
-  public get overshoot(): number {
-    return this.matrix.overshoot;
   }
 
   public reset(element: Element): void {

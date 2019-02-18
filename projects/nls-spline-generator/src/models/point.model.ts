@@ -14,8 +14,8 @@ export interface Point {
   /**
    * Flags for point status
    */
-  flags?: {
-    entry: boolean;
-    vector: boolean;
+  flag?: {
+    entry?: boolean;
+    vector?: boolean;
   };
 }
