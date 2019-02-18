@@ -15,6 +15,10 @@ export class GraphService {
 
   private graphs: Graph[];
   private defaults: Graph;
+  private spline = d3.line()
+    .x(p => p.x)
+    .y(p => p.y)
+    .curve(d3.curveBasis);
 
   /**
    * Set defaults for graphs if any parameter
@@ -35,6 +39,23 @@ export class GraphService {
     };
   }
 
+  private drawAllSplines(): void {
+    this.graphs.forEach(
+      graph => {
+        this.drawSpline(graph.points, graph.stroke);
+      }
+    );
+  }
+
+  private drawSpline(points: Point[], stroke: any): void {
+    this.matrix.context.beginPath();
+    this.matrix.context.lineWidth = stroke.width;
+    this.matrix.context.strokeStyle = stroke.color;
+    this.spline(points);
+    this.matrix.context.stroke();
+    this.matrix.context.closePath();
+  }
+
   private drawAllPoints(): void {
     this.graphs.forEach(
       graph => {
@@ -46,7 +67,6 @@ export class GraphService {
   }
 
   private drawPoint(point: Point): void {
-    console.log(point);
     this.matrix.context.fillStyle = this.config.color;
     this.matrix.context.beginPath();
     this.matrix.context.arc(point.x, point.y, 4, 0, this.math.τ, true);
@@ -55,6 +75,10 @@ export class GraphService {
   }
 
   public draw(): void {
+    this.matrix.clear();
+    this.spline.context(this.matrix.context);
+    this.drawAllSplines();
+
     if (this.config.debugging) {
       this.drawAllPoints();
     }

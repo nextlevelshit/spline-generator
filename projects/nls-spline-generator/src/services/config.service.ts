@@ -8,12 +8,15 @@ export class ConfigService {
 
   private defaults: Config;
   private config: Config;
+  private colors: Iterator<string>;
 
   /**
    * Set defaults for config if any parameter
    * has been left empty.
    */
   constructor() {
+    this.colors = this.colorIterator();
+
     this.defaults = {
       points: 3,
       splines: 1,
@@ -38,7 +41,7 @@ export class ConfigService {
       },
       stroke: {
         width: 1,
-        color: '#000000'
+        colors: ['#000000']
       },
       animation: {
         enabled: false,
@@ -48,6 +51,15 @@ export class ConfigService {
       },
       debug: false
     };
+  }
+
+  private *colorIterator(): Iterator<string> {
+    let i = 0;
+    const total = this.config.stroke.colors.length;
+
+    while (true) {
+      yield this.config.stroke.colors[i++ % total];
+    }
   }
 
   public reset(input: Config) {
@@ -70,7 +82,7 @@ export class ConfigService {
   }
 
   public get color(): string {
-    return this.config.stroke.color;
+    return this.config.stroke.colors[0];
   }
 
   public get debugging(): boolean {
@@ -79,7 +91,10 @@ export class ConfigService {
 
   public get graph(): any {
     return {
-      stroke: this.config.stroke
+      stroke: {
+        width: this.config.stroke.width,
+        color: this.colors.next().value
+      }
     };
   }
 

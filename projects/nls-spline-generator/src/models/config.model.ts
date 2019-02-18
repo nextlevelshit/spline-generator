@@ -78,9 +78,9 @@ export interface Config {
      */
     width: number;
     /**
-     * Spline stroke color in hexadecimal
+     * Spline stroke color in hexadecimal, rgb, etc.
      */
-    color: string;
+    colors: string[];
   };
   /**
    * Configuration for Animation

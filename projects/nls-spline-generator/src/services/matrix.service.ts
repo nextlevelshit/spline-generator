@@ -22,6 +22,10 @@ export class MatrixService {
     };
   }
 
+  public clear(): void {
+    this.context.clearRect(0, 0, this.matrix.width, this.matrix.height);
+  }
+
   public reset(canvas: HTMLCanvasElement, parent: Element): void {
     this.canvasEl = canvas;
     this.matrix = {

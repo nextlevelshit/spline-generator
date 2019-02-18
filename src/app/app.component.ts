@@ -12,11 +12,15 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 6,
+      points: 4,
       splines: 2,
       margin: {
         spline: 20,
         entry: 4
+      },
+      stroke: {
+        width: 2,
+        colors: ['#79B4A9', '#9CC69B'],
       },
       debug: true
     };
