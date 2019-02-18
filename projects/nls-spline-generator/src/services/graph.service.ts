@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import { CurveService } from './curve.service';
 import { ConfigService } from './config.service';
+import { PointService } from './point.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class GraphService {
     private curves: CurveService,
     private config: ConfigService,
     private matrix: MatrixService,
-    private math: MathService
+    private math: MathService,
+    private points: PointService
   ) {
     this.defaults = {
       points: [],
@@ -82,6 +84,7 @@ export class GraphService {
   public draw(): void {
     this.matrix.clear();
     this.spline.context(this.matrix.context);
+    this.curves.appendRadians();
     this.drawAllSplines();
   }
   /**
@@ -105,20 +108,23 @@ export class GraphService {
       this.graphs.forEach((graph, i, graphs) => {
         graphs[i] = {
           ...graph,
-          points: graph.points.map((point) => {
-            if (point.flag) {
-              return point;
-            } else {
-              const next = point.generator.next().value;
-              return {
-                ...point,
-                x: next.x,
-                y: next.y
-              };
-            }
-          })
+          points: this.points.appendRadians(
+            graph.points.map((point) => {
+              if (point.flag) {
+                return point;
+              } else {
+                const next = point.generator.next().value;
+                return {
+                  ...point,
+                  x: next.x,
+                  y: next.y
+                };
+              }
+            })
+          )
         };
       });
+
       this.draw();
     });
     // }, 1000 / 60);

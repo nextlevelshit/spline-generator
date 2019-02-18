@@ -35,7 +35,7 @@ export class AppComponent {
         }
       },
       stroke: {
-        width: 0.8,
+        width: 1.2,
         colors: ['#F8485E', '#5CC0C7'],
       },
       animation: {
@@ -43,7 +43,7 @@ export class AppComponent {
         amplitude: 20,
         frequency: 10,
         fps: 30,
-        ticks: 2000
+        ticks: 4000
       },
       debug: false
     };
