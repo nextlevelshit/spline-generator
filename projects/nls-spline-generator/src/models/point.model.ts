@@ -18,4 +18,9 @@ export interface Point {
     entry?: boolean;
     vector?: boolean;
   };
+  /**
+   * Set of functions to generate next points on
+   * animation trail.
+   */
+  generator?: Iterator<Point>;
 }

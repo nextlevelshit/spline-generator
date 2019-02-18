@@ -12,8 +12,8 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 4,
-      splines: 2,
+      points: 1,
+      splines: 10,
       margin: {
         spline: 20,
         entry: 4,
@@ -34,7 +34,22 @@ export class AppComponent {
         width: 2,
         colors: ['#79B4A9', '#9CC69B'],
       },
-      debug: true
+      animation: {
+        enabled: false,
+        amplitude: 10,
+        frequency: 14,
+        fps: 30
+      },
+      debug: false
+    };
+  }
+
+  public toggleAnimation(): void {
+    this.config = {
+      ...this.config,
+      animation: {
+        enabled: !this.config.animation.enabled
+      }
     };
   }
 }

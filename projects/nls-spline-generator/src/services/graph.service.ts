@@ -13,6 +13,7 @@ import { ConfigService } from './config.service';
 })
 export class GraphService {
 
+  private timer: any;
   private graphs: Graph[];
   private defaults: Graph;
   private spline = d3.line()
@@ -97,6 +98,34 @@ export class GraphService {
         };
       })
     ];
+  }
+
+  public startAnimation(): void {
+    this.timer = d3.interval(t => {
+      this.graphs.forEach((graph, i, graphs) => {
+        graphs[i] = {
+          ...graph,
+          points: graph.points.map((point) => {
+            if (point.flag) {
+              return point;
+            } else {
+              const next = point.generator.next().value;
+              return {
+                ...point,
+                x: next.x,
+                y: next.y
+              };
+            }
+          })
+        };
+      });
+      this.draw();
+    }, 1000 / 50);
+  }
+
+  public stopAnimation(): void {
+    this.timer.stop();
+    this.timer = null;
   }
 
   public get all(): Graph[] {

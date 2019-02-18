@@ -32,7 +32,12 @@ export class NlsSplineGeneratorComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.resetConfig();
-    this.init();
+
+    if (!this.curves.all && !this.graphs.all) {
+      this.init();
+    } else {
+      this.toggleAnimation();
+    }
   }
 
   private init(): void {
@@ -83,5 +88,15 @@ export class NlsSplineGeneratorComponent implements OnChanges {
    */
   private resetConfig(): void {
     this.config.reset(this.configInput);
+  }
+
+  private toggleAnimation(): void {
+    const enabled = this.configInput.animation.enabled;
+
+    if (enabled) {
+      this.graphs.startAnimation();
+    } else {
+      this.graphs.stopAnimation();
+    }
   }
 }

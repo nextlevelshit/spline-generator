@@ -33,12 +33,16 @@ export class CurveService {
       const paths = this.noise.paths(samples);
       const generators = this.noise.generators(paths);
 
-      curves[i] = {
-        points: generators.map(generator => {
-          return generator.next().value;
-        }),
-        generators
-      };
+      const points =  generators.map(generator => {
+        const point = generator.next().value;
+        return {
+          x: point.x,
+          y: point.y,
+          generator
+        };
+      });
+
+      curves[i] = { points };
     });
   }
 

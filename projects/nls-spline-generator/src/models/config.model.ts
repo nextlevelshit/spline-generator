@@ -91,11 +91,11 @@ export interface Config {
      * Animation frames per second, default 60
      */
     fps?: number;
-    frequency: number;
+    frequency?: number;
     /**
      * Radius of noise generated node pathes
      */
-    amplitude: number;
+    amplitude?: number;
   };
   /**
    * Enable debug mode to draw all helpers like

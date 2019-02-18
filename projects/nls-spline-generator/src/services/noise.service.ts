@@ -54,8 +54,9 @@ export class NoiseService {
     return noise.map((simplex, i) => {
       const start = points[i];
       const scale = this.scaledUnit;
-      const amplitude = this.config.animation.amplitude;
-      const frequency = this.distort(this.config.animation.frequency);
+      const amplitude = this.config.animation.amplitude / 5;
+      const frequency = this.distort(this.config.animation.frequency, 0.5);
+
 
       return d3.range(frequency).map((sample, j) => {
         const radians = j / frequency * this.math.τ;
@@ -109,7 +110,7 @@ export class NoiseService {
     });
     // Delete shadow group after it
     // is not needed anymore
-    group.remove();
+    // group.remove();
 
     return paths;
   }
