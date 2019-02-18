@@ -23,27 +23,27 @@ export interface Config {
    * Leaves the canvas (off)
    */
   vector?: {
-    in: {
+    in?: {
       /**
        * Vector direction set by part of tau. Examples:
        * 0 up, 0.25 right, 0.5 bottom, 0.75 left
        */
-      direction: number;
+      direction?: number;
       /**
        * Percentage of canvas height or width
        */
-      tension: number;
+      tension?: number;
     },
-    out: {
+    out?: {
       /**
        * Vector direction set by part of tau. Examples:
        * 0 up, 0.25 right, 0.5 bottom, 0.75 left
        */
-      direction: number;
+      direction?: number;
       /**
        * Percentage of canvas height or width
        */
-      tension: number;
+      tension?: number;
     }
   };
   /**

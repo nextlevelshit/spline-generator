@@ -89,6 +89,14 @@ export class ConfigService {
     return this.config.debug;
   }
 
+  public get vector(): any {
+    return this.config.vector;
+  }
+
+  public get margin(): any {
+    return this.config.margin;
+  }
+
   public get graph(): any {
     return {
       stroke: {

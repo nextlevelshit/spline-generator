@@ -16,7 +16,19 @@ export class AppComponent {
       splines: 2,
       margin: {
         spline: 20,
-        entry: 4
+        entry: 4,
+        canvas: {
+          x: 20,
+          y: 20
+        }
+      },
+      vector: {
+        in: {
+          tension: 0.3,
+        },
+        out: {
+          tension: 0.3
+        }
       },
       stroke: {
         width: 2,

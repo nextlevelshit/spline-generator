@@ -25,7 +25,7 @@ export class PointService {
 
   public get entryPointIn(): Point {
     return {
-      x: 0,
+      x: this.config.margin.canvas.x,
       y: this.matrix.height,
       flag: {
         entry: true
@@ -35,7 +35,7 @@ export class PointService {
 
   public get entryPointOut(): Point {
     return {
-      x: this.matrix.width,
+      x: this.matrix.width - this.config.margin.canvas.x,
       y: 0,
       flag: {
         entry: true
@@ -44,9 +44,10 @@ export class PointService {
   }
 
   public get vectorPointIn(): Point {
+    const tension = (1 - this.config.vector.in.tension);
     return {
-      x: 0,
-      y: this.matrix.height / 2,
+      x: this.entryPointIn.x,
+      y: this.matrix.height * tension,
       flag: {
         vector: true
       }
@@ -54,9 +55,10 @@ export class PointService {
   }
 
   public get vectorPointOut(): Point {
+    const tension = (1 - this.config.vector.in.tension);
     return {
-      x: this.matrix.width,
-      y: this.matrix.height / 2,
+      x: this.entryPointOut.x,
+      y: this.matrix.height * this.config.vector.out.tension,
       flag: {
         vector: true
       }
