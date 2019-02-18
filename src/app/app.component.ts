@@ -27,11 +27,11 @@ export class AppComponent {
       vector: {
         in: {
           tension: 0.3,
-          direction: 1
+          direction: 0.25
         },
         out: {
           tension: 0.3,
-          direction: 0
+          direction: 1
         }
       },
       stroke: {

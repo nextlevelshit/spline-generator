@@ -39,8 +39,8 @@ export class PointService {
     const magnitudeY = this.matrix.height * vector.tension;
 
     return {
-      x: point.x + magnitudeX * Math.sin(Math.PI * vector.direction),
-      y: point.y + magnitudeY * Math.cos(Math.PI * vector.direction),
+      x: point.x + magnitudeX * Math.sin(this.math.τ * vector.direction),
+      y: point.y + magnitudeY * Math.cos(this.math.τ * vector.direction),
       flag: {
         vector: true
       }

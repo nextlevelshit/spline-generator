@@ -1,3 +1,4 @@
+import { MathService } from './math.service';
 import { Point } from './../models/point.model';
 import { Matrix } from './../models/matrix.model';
 import { Injectable } from '@angular/core';
@@ -18,7 +19,8 @@ export class MatrixService {
    * has been left empty.
    */
   constructor(
-    private config: ConfigService
+    private config: ConfigService,
+    private math: MathService
   ) {
     this.matrix = {
       width: null,
@@ -82,17 +84,19 @@ export class MatrixService {
   }
 
   public get entries(): any {
-    const marginX = this.config.margin.canvas.x + this.config.margin.entry;
-    const marginY = this.config.margin.canvas.y + this.config.margin.entry;
+    const marginX = this.config.margin.canvas.x + this.config.margin.canvas.x;
+    const marginY = this.config.margin.canvas.y + this.config.margin.canvas.y;
+    const radiansIn = this.config.vector.in.direction * this.math.τ;
+    const radiansOut = this.config.vector.out.direction * this.math.τ;
 
     const entries = {
       in: {
-        x: marginX * Math.abs(Math.cos(this.config.vector.in.direction * Math.PI)),
-        y: this.matrix.height - marginY * Math.abs(Math.sin(this.config.vector.in.direction * Math.PI))
+        x: marginX * Math.abs(Math.cos(radiansIn)),
+        y: this.matrix.height - marginY * Math.abs(Math.sin(radiansIn))
       },
       out: {
-        x: this.matrix.width - marginX * Math.abs(Math.cos(this.config.vector.out.direction * Math.PI)),
-        y: marginY * Math.abs(Math.sin(this.config.vector.out.direction * Math.PI))
+        x: this.matrix.width - marginX * Math.abs(Math.cos(radiansOut)),
+        y: marginY * Math.abs(Math.sin(radiansOut))
       }
     };
 
