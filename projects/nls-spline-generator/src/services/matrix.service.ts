@@ -1,6 +1,7 @@
 import { Point } from './../models/point.model';
 import { Matrix } from './../models/matrix.model';
 import { Injectable } from '@angular/core';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,14 @@ export class MatrixService {
    * Set defaults for matrix if any parameter
    * has been left empty.
    */
-  constructor() {
-    this.defaults = {
+  constructor(
+    private config: ConfigService
+  ) {
+    this.matrix = {
       width: null,
-      height: null
+      height: null,
+      in: null,
+      out: null
     };
   }
 
@@ -34,10 +39,6 @@ export class MatrixService {
   ): void {
     this.canvasEl = canvas;
     this.svgEl = svg;
-
-    this.matrix = {
-      ...this.defaults
-    };
 
     this.resize(parent);
   }
@@ -78,5 +79,23 @@ export class MatrixService {
 
   public get svg(): Element {
     return this.svgEl;
+  }
+
+  public get entries(): any {
+    const marginX = this.config.margin.canvas.x + this.config.margin.entry;
+    const marginY = this.config.margin.canvas.y + this.config.margin.entry;
+
+    const entries = {
+      in: {
+        x: marginX * Math.abs(Math.cos(this.config.vector.in.direction * Math.PI)),
+        y: this.matrix.height - marginY * Math.abs(Math.sin(this.config.vector.in.direction * Math.PI))
+      },
+      out: {
+        x: this.matrix.width - marginX * Math.abs(Math.cos(this.config.vector.out.direction * Math.PI)),
+        y: marginY * Math.abs(Math.sin(this.config.vector.out.direction * Math.PI))
+      }
+    };
+
+    return entries;
   }
 }

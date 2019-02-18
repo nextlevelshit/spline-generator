@@ -28,7 +28,7 @@ export class ConfigService {
           tension: 0
         },
         out: {
-          direction: 0,
+          direction: 1,
           tension: 0
         }
       },
@@ -48,7 +48,8 @@ export class ConfigService {
         enabled: false,
         fps: 60,
         frequency: 16,
-        amplitude: 40
+        amplitude: 40,
+        ticks: 2500
       },
       debug: false
     };

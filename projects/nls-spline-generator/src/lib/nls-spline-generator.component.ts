@@ -42,7 +42,6 @@ export class NlsSplineGeneratorComponent implements OnChanges {
 
   private init(): void {
     this.resetMatrix();
-    // this.setOvershoot();
     this.resetCurves();
     this.resetGraphs();
     this.drawGraphs();

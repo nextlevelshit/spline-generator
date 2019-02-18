@@ -38,7 +38,7 @@ export class NoiseService {
 
   public init(): any {
     return d3.range(this.config.points).map(() => {
-      return Simplex.create(Math.floor(Math.random() * 10000));
+      return Simplex.create(Math.floor(Math.random() * 100));
     });
   }
 
@@ -54,7 +54,7 @@ export class NoiseService {
     return noise.map((simplex, i) => {
       const start = points[i];
       const scale = this.scaledUnit;
-      const amplitude = this.config.animation.amplitude / 10;
+      const amplitude = this.config.animation.amplitude / 6;
       const frequency = this.distort(this.config.animation.frequency, 0.5);
 
 
@@ -97,15 +97,6 @@ export class NoiseService {
         .y(p => p.y)
         .curve(d3.curveBasisClosed)(sample)
       );
-
-      /**
-       * Alternatively SVG could be omitted
-       */
-      // const path = d3.line()
-      //   .x(p => p.x)
-      //   .y(p => p.y)
-      //   .curve(d3.curveBasisClosed)(sample);
-
       return path;
     });
     // Delete shadow group after it
@@ -117,7 +108,10 @@ export class NoiseService {
 
   public generators(paths: any): any {
     return paths.map(noisePath => {
-      return this.points.pointsOnPath(noisePath.node());
+      return this.points.pointsOnPath(
+        noisePath.node(),
+        this.config.animation.ticks
+      );
     });
   }
 }

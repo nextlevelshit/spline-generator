@@ -32,22 +32,22 @@ export interface Config {
        * Vector direction set by part of tau. Examples:
        * 0 up, 0.25 right, 0.5 bottom, 0.75 left
        */
-      direction?: number;
+      direction: number;
       /**
        * Percentage of canvas height or width
        */
-      tension?: number;
+      tension: number;
     },
     out?: {
       /**
        * Vector direction set by part of tau. Examples:
        * 0 up, 0.25 right, 0.5 bottom, 0.75 left
        */
-      direction?: number;
+      direction: number;
       /**
        * Percentage of canvas height or width
        */
-      tension?: number;
+      tension: number;
     }
   };
   /**
@@ -100,6 +100,10 @@ export interface Config {
      * Radius of noise generated node pathes
      */
     amplitude?: number;
+    /**
+     * Ticks per one animation cycle
+     */
+    ticks?: number;
   };
   /**
    * Enable debug mode to draw all helpers like
