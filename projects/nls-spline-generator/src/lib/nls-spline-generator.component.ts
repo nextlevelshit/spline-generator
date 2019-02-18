@@ -11,8 +11,7 @@ import * as d3 from 'd3';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'nls-spline-generator',
-  template: `<canvas #matrix width="100%" height="100%"></canvas>`,
-  styleUrls: ['nls-spline-generator.component.scss']
+  template: `<canvas #matrix width="100%" height="100%" style="width: 100%; height: 100%; display: block"></canvas>`
 })
 export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
 
