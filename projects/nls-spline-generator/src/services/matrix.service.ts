@@ -10,6 +10,7 @@ export class MatrixService {
   private defaults: Matrix;
   private canvasEl: HTMLCanvasElement;
   private matrix: Matrix;
+  private svgEl: SVGElement;
 
   /**
    * Set defaults for matrix if any parameter
@@ -26,11 +27,18 @@ export class MatrixService {
     this.context.clearRect(0, 0, this.matrix.width, this.matrix.height);
   }
 
-  public reset(canvas: HTMLCanvasElement, parent: Element): void {
+  public reset(
+    canvas: HTMLCanvasElement,
+    parent: Element,
+    svg: SVGElement
+  ): void {
     this.canvasEl = canvas;
+    this.svgEl = svg;
+
     this.matrix = {
       ...this.defaults
     };
+
     this.resize(parent);
   }
 
@@ -62,5 +70,13 @@ export class MatrixService {
 
   public get context(): CanvasRenderingContext2D {
     return this.canvasEl.getContext('2d');
+  }
+
+  public get unit(): number {
+    return Math.min(this.matrix.width, this.matrix.height) / 100;
+  }
+
+  public get svg(): Element {
+    return this.svgEl;
   }
 }

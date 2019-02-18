@@ -11,14 +11,14 @@ import * as d3 from 'd3';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'nls-spline-generator',
-  template: `<canvas #matrix width="100%" height="100%"></canvas>`
+  // tslint:disable-next-line:max-line-length
+  templateUrl: './nls-spline-generator.component.html'
 })
 export class NlsSplineGeneratorComponent implements OnChanges {
 
-  // private curves: Curve[];
-
   @Input() configInput: Config;
   @ViewChild('matrix') matrixEl;
+  @ViewChild('svg') svgEl;
 
   constructor(
     private el: ElementRef,
@@ -63,6 +63,7 @@ export class NlsSplineGeneratorComponent implements OnChanges {
    */
   private resetCurves(): void {
     this.curves.distributePoints();
+    this.curves.prepareAnimationPaths();
     this.curves.setVectorPoints();
     this.curves.setEntryPoints();
   }
@@ -73,7 +74,8 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   private resetMatrix(): void {
     const canvasEl = this.matrixEl.nativeElement;
     const parentEl = this.el.nativeElement;
-    this.matrix.reset(canvasEl, parentEl);
+    const svgEl = this.svgEl.nativeElement;
+    this.matrix.reset(canvasEl, parentEl, svgEl);
   }
   /**
    * Reset configuration and merge with incoming

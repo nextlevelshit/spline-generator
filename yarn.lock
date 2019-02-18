@@ -7485,6 +7485,11 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
+tooloud@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/tooloud/-/tooloud-2.0.4.tgz#c4a69b9db8e5c1a41bcd936e1941963150b2559f"
+  integrity sha512-54LuvIiX+8TBs3AH7f/dUmrUEO9E9aT4WY9KvsgVHZN7GpejBfPae6qH+a5jaTi9XXlk1C6sYmx4Sib26WkdWA==
+
 tough-cookie@~2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.4.3.tgz#53f36da3f47783b0925afa06ff9f3b165280f781"

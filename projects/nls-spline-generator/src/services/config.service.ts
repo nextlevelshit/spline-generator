@@ -97,6 +97,10 @@ export class ConfigService {
     return this.config.margin;
   }
 
+  public get animation(): any {
+    return this.config.animation;
+  }
+
   public get graph(): any {
     return {
       stroke: {
