@@ -4,6 +4,7 @@ import { MatrixService } from './../services/matrix.service';
 import { Config } from './../models/config.model';
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { ConfigService } from '../services/config.service';
+import * as d3 from 'd3';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -30,12 +31,40 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.resetConfig();
+    this.resetMatrix();
+    this.setOvershoot();
+    this.distributePoints();
+    this.setEntryPoints();
+    this.setVectorPoints();
+
+    console.log(this.curves);
+  }
+
+  private resetConfig(): void {
     this.config.reset(this.configInput);
+  }
+
+  private resetMatrix(): void {
     this.matrix.reset(this.matrixEl.nativeElement);
+  }
 
+  private setOvershoot(): void {
     this.matrix.overshoot = this.config.overshoot;
+  }
 
-    this.points.distribute();
+  private distributePoints(): void {
+    this.curves = d3.range(this.config.splines).map(() => {
+      return this.points.distribute();
+    });
+  }
+
+  private setEntryPoints(): void {
+
+  }
+
+  private setVectorPoints(): void {
+
   }
 
 }

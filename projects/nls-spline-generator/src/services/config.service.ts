@@ -59,4 +59,8 @@ export class ConfigService {
   public get overshoot(): number {
     return this.config.overshoot;
   }
+
+  public get splines(): number {
+    return this.config.splines;
+  }
 }
