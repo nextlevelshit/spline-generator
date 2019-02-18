@@ -31,28 +31,15 @@ export class CurveService {
       const simplexNoise = this.noise.init();
       const samples = this.noise.samples(simplexNoise, curve.points);
       const paths = this.noise.paths(samples);
+      const generators = this.noise.generators(paths);
 
-      console.log(paths);
+      curves[i] = {
+        points: generators.map(generator => {
+          return generator.next().value;
+        }),
+        generators
+      };
     });
-    // const shadowGroup = this.createShadowGroup();
-    // const noisePathList = this.adjustNoisePathList(samplesList, shadowGroup);
-    // const nodesGeneratorList = this.adjustNodesGeneratorList(noisePathList)
-    //   .sort((a: Iterator<Point>, b: Iterator<Point>) => {
-    //     const deltaAtoCenter = this.math.Δ(a.next().value, this.matrix.center);
-    //     const deltaBtoCenter = this.math.Δ(b.next().value, this.matrix.center);
-
-    //     return a.next().value.distanceToCenter - b.next().value.distanceToCenter;
-    //   }).reduceRight((acc, val, i) => {
-    //     return i % 2 === 0 ? [...acc, val] : [val, ...acc];
-    //   }, []);
-
-    // shadowGroup.remove();
-
-    //   nodes: nodesGeneratorList.map((generator: Iterator<Point>) => {
-    //     return generator.next().value;
-    //   })
-
-    // return this.appendNodesRadians(graph);
   }
 
   public setEntryPoints(): void {

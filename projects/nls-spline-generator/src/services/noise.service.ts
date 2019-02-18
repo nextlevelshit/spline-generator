@@ -8,6 +8,7 @@ import tooloud from 'tooloud';
 import * as d3 from 'd3';
 import { domRendererFactory3 } from '@angular/core/src/render3/interfaces/renderer';
 import { Curve } from '../models/curve.model';
+import { PointService } from './point.service';
 
 export const { Simplex } = tooloud;
 
@@ -19,7 +20,8 @@ export class NoiseService {
   constructor(
     private config: ConfigService,
     private matrix: MatrixService,
-    private math: MathService
+    private math: MathService,
+    private points: PointService
   ) {
 
   }
@@ -110,5 +112,11 @@ export class NoiseService {
     group.remove();
 
     return paths;
+  }
+
+  public generators(paths: any): any {
+    return paths.map(noisePath => {
+      return this.points.pointsOnPath(noisePath.node());
+    });
   }
 }

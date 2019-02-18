@@ -23,6 +23,28 @@ export class PointService {
     });
   }
 
+  public *pointsOnPath(
+    path: any,
+    ticksAverage: number = 1200,
+    clockwise: boolean = Math.random() >= 0.5,
+    start: number = Math.random()
+  ) {
+    const totalLength = path.getTotalLength();
+    const ticks = Math.floor(ticksAverage + ticksAverage * d3.randomNormal(0, 0.2)());
+    const direction = (clockwise) ? totalLength : 0;
+
+    const pointsList = d3.range(ticks).map((n) => {
+      const step = n * totalLength / ticks;
+      return path.getPointAtLength(Math.abs(direction - step));
+    });
+
+    let i = Math.floor(start * totalLength);
+
+    while (true) {
+      yield pointsList[i++ % ticks];
+    }
+  }
+
   public get entryPointIn(): Point {
     return {
       x: this.config.margin.canvas.x,
