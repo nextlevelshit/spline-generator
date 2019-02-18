@@ -27,6 +27,15 @@ export class CurveService {
     });
   }
 
+  public appendRadians(): void {
+    this.curves.forEach((curve, i, curves) => {
+      curves[i] = {
+        ...curve,
+        points: this.points.appendRadians(curve.points)
+      };
+    });
+  }
+
   public prepareAnimationPaths(): void {
     this.curves.forEach((curve: Curve, i, curves: Curve[]) => {
       const simplexNoise = this.noise.init();
@@ -68,7 +77,7 @@ export class CurveService {
       : [median];
     // Prepare spread generators for median siblings
     const spreads = siblings.map(i => {
-      return this.points.spreadOrthogonal(curve[i], 0);
+      return this.points.spreadOrthogonal(curve[i]);
     });
     // spread medians
     return d3.range(this.config.splines).map(() => {

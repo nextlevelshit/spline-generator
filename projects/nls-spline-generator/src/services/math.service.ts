@@ -27,7 +27,7 @@ export class MathService {
   /**
    * Flip sign each iteration
    *
-   * @param startPositive
+   * @param startPositive boolean
    */
   public *flipSign(startPositive: boolean = true) {
     let sign = startPositive ? 1 : -1;
@@ -35,5 +35,15 @@ export class MathService {
     while (true) {
       yield sign = sign * (-1);
     }
+  }
+
+  /**
+   * Calculate radians of line between two points
+   *
+   * @param a Point
+   * @param b Point
+   */
+  public radians(a: Point, b: Point) {
+    return Math.atan2(b.y - a.y, b.x - a.x);
   }
 }

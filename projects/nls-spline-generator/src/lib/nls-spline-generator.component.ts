@@ -71,6 +71,9 @@ export class NlsSplineGeneratorComponent implements OnChanges {
     this.curves.prepareAnimationPaths();
     this.curves.setVectorPoints();
     this.curves.setEntryPoints();
+    this.curves.appendRadians();
+
+    console.log(this.curves.all);
   }
   /**
    * Reset matrix and save canvas HTML element

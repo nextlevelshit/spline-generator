@@ -75,6 +75,43 @@ export class PointService {
     }
   }
 
+  public appendRadians(points: Point[]): Point[] {
+    return points.map((point, i) => {
+      if (point.flag) {
+        return point;
+      }
+
+      const siblings = [i - 1, i + 1];
+
+      return {
+        ...point,
+        radians: siblings.reduce((a, b) => {
+          return this.math.radians(points[a], points[b]);
+        })
+      };
+    });
+      // return {
+      //   ...graph,
+      //   nodes: graph.nodes.map((point: Point, i, allNodes) => {
+      //     let prev = allNodes[i - 1];
+      //     let next = allNodes[i + 1];
+
+      //     if (i === 0) {
+      //       prev = graph.start.direction;
+      //     }
+      //     if (i === allNodes.length - 1) {
+      //       next = graph.end.direction;
+      //     }
+
+      //     return {
+      //       x: point.x,
+      //       y: point.y,
+      //       radians: this.math.angleRadians(prev, next)
+      //     };
+      //   })
+      // };
+  }
+
   public shiftPoint(
     point: Point,
     spacing: number,
