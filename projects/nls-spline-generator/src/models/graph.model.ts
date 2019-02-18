@@ -1,7 +1,7 @@
-import { Curve } from './curve.model';
+import { Point } from './point.model';
 
 export interface Graph {
-  points: Curve;
+  points: Point[];
   /**
    * Stroke parameters of each spline
    */

@@ -36,6 +36,10 @@ export class ConfigService {
           y: 10
         }
       },
+      stroke: {
+        width: 1,
+        color: '#000'
+      },
       animation: {
         enabled: false,
         fps: 60,
@@ -62,5 +66,11 @@ export class ConfigService {
 
   public get splines(): number {
     return this.config.splines;
+  }
+
+  public get graph(): any {
+    return {
+      stroke: this.config.stroke
+    };
   }
 }

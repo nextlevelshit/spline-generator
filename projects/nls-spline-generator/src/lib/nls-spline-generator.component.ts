@@ -1,3 +1,4 @@
+import { GraphService } from './../services/graph.service';
 import { CurveService } from './../services/curve.service';
 import { PointService } from './../services/point.service';
 import { Curve } from './../models/curve.model';
@@ -24,7 +25,8 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
     private matrix: MatrixService,
     private config: ConfigService,
     private points: PointService,
-    private curves: CurveService
+    private curves: CurveService,
+    private graphs: GraphService
   ) {
   }
 
@@ -37,8 +39,10 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
     this.resetMatrix();
     // this.setOvershoot();
     this.resetCurves();
+    this.resetGraphs();
+    // this.drawGraphs();
 
-    console.log(this.curves.all);
+    console.log(this.graphs.all);
   }
 
   private resetConfig(): void {
@@ -53,5 +57,8 @@ export class NlsSplineGeneratorComponent implements OnInit, OnChanges {
     this.curves.distributePoints();
     this.curves.setVectorPoints();
     this.curves.setEntryPoints();
+  }
+  private resetGraphs(): void {
+    this.graphs.reset();
   }
 }

@@ -69,6 +69,19 @@ export interface Config {
       y?: number;
     }
   };
+   /**
+    * Configuration of spline strokes
+    */
+  stroke?: {
+    /**
+     * Spline stroke width in pixel
+     */
+    width: number;
+    /**
+     * Spline stroke color in hexadecimal
+     */
+    color: string;
+  };
   /**
    * Configuration for Animation
    */
