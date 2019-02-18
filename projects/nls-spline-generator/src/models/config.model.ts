@@ -13,7 +13,11 @@ export interface Config {
    */
   overshoot?: number;
   /**
-   * Amount of splines
+   * Amount of graphs
+   */
+  graphs?: number;
+  /**
+   * Amount of splines each graph
    */
   splines?: number;
   /**

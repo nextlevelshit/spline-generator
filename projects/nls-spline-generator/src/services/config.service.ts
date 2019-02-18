@@ -19,6 +19,7 @@ export class ConfigService {
 
     this.defaults = {
       points: 3,
+      graphs: 1,
       splines: 1,
       overshoot: 0.4,
       vector: {
@@ -75,6 +76,10 @@ export class ConfigService {
 
   public get overshoot(): number {
     return this.config.overshoot;
+  }
+
+  public get graphs(): number {
+    return this.config.graphs;
   }
 
   public get splines(): number {

@@ -19,7 +19,7 @@ export class CurveService {
   ) { }
 
   public distributePoints(): void {
-    this.curves = d3.range(this.config.splines).map(() => {
+    this.curves = d3.range(this.config.graphs).map(() => {
       return {
         points: this.points.distribute()
       };
