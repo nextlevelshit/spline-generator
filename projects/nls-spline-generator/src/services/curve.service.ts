@@ -1,3 +1,4 @@
+import { Point } from './../models/point.model';
 import { NoiseService } from './noise.service';
 import { PointService } from './point.service';
 import { ConfigService } from './config.service';
@@ -57,6 +58,33 @@ export class CurveService {
     this.curves.forEach((curve, i, curves) => {
       curves[i].points.unshift(this.points.vectorPointIn);
       curves[i].points.push(this.points.vectorPointOut);
+    });
+  }
+
+  public splines(curve: Point[]): Point[][] {
+    const median = Math.floor(curve.length / 2);
+    const siblings = (this.config.points > 5)
+      ? [median - 1, median, median + 1]
+      : [median];
+    // Prepare spread generators for median siblings
+    const spreads = siblings.map(i => {
+      return this.points.spreadOrthogonal(curve[i], 0);
+    });
+    // spread medians
+    return d3.range(this.config.splines).map(() => {
+      // Reduce payload of point's parameters
+      const points = curve.slice().map(point => {
+        return {
+          x: point.x,
+          y: point.y
+        };
+      });
+
+      spreads.forEach((spread, i) => {
+        points.splice(siblings[i], 1, spread.next().value);
+      });
+
+      return points;
     });
   }
 

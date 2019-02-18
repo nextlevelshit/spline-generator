@@ -54,7 +54,7 @@ export class NoiseService {
     return noise.map((simplex, i) => {
       const start = points[i];
       const scale = this.scaledUnit;
-      const amplitude = this.config.animation.amplitude / 5;
+      const amplitude = this.config.animation.amplitude / 10;
       const frequency = this.distort(this.config.animation.frequency, 0.5);
 
 

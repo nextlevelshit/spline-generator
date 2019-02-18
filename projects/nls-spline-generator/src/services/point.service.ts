@@ -1,3 +1,4 @@
+import { MathService } from './math.service';
 import { MatrixService } from './matrix.service';
 import { Point } from './../models/point.model';
 import { ConfigService } from './config.service';
@@ -11,7 +12,8 @@ export class PointService {
 
   constructor(
     private config: ConfigService,
-    private matrix: MatrixService
+    private matrix: MatrixService,
+    private math: MathService
   ) { }
 
   public distribute(): Point[] {
@@ -43,6 +45,45 @@ export class PointService {
     while (true) {
       yield pointsList[i++ % ticks];
     }
+  }
+
+  public *spreadOrthogonal(
+    start: Point,
+    radians?: number
+  ) {
+    const spacing = this.config.margin.spline;
+    const sign = this.math.flipSign();
+    let point = start;
+    let i = 0;
+
+    // First check if point has its own radians,
+    // otherwise take from arguments or random
+    radians = (radians || radians === 0)
+      ? radians
+      : (point.radians)
+        ? point.radians
+        : d3.randomUniform(0, 2)();
+
+    while (true) {
+      const nextSpacing = sign.next().value * spacing * i++;
+
+      point = this.shiftPoint(point, nextSpacing, radians);
+
+      yield point;
+      // spacing *= 0.99;
+      // spacing *= 1.01;
+    }
+  }
+
+  public shiftPoint(
+    point: Point,
+    spacing: number,
+    radians: number
+  ): Point {
+    return {
+      x: Math.sin(radians * Math.PI) * spacing + point.x,
+      y: Math.cos(radians * Math.PI) * spacing + point.y
+    };
   }
 
   public get entryPointIn(): Point {

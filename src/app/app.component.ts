@@ -12,12 +12,12 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 4,
+      points: 6,
       graphs: 2,
-      splines: 10,
-      overshoot: 1.2,
+      splines: 13,
+      overshoot: 0.6,
       margin: {
-        spline: 20,
+        spline: 30,
         entry: 4,
         canvas: {
           x: 20,
@@ -33,13 +33,13 @@ export class AppComponent {
         }
       },
       stroke: {
-        width: 2,
+        width: 1.2,
         colors: ['#79B4A9', '#9CC69B'],
       },
       animation: {
         enabled: false,
-        amplitude: 10,
-        frequency: 14,
+        amplitude: 30,
+        frequency: 18,
         fps: 30
       },
       debug: false

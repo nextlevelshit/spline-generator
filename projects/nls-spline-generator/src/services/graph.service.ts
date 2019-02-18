@@ -43,7 +43,15 @@ export class GraphService {
   private drawAllSplines(): void {
     this.graphs.forEach(
       graph => {
-        this.drawSpline(graph.points, graph.stroke);
+        this.curves.splines(graph.points).forEach(
+          spline => {
+            this.drawSpline(spline, graph.stroke);
+
+            if (this.config.debugging) {
+              this.drawPointsOfSpline(spline);
+            }
+          }
+        );
       }
     );
   }
@@ -57,13 +65,9 @@ export class GraphService {
     this.matrix.context.closePath();
   }
 
-  private drawAllPoints(): void {
-    this.graphs.forEach(
-      graph => {
-        graph.points.forEach(
-          point => this.drawPoint(point)
-        );
-      }
+  private drawPointsOfSpline(points: Point[]): void {
+    points.forEach(
+      point => this.drawPoint(point)
     );
   }
 
@@ -79,10 +83,6 @@ export class GraphService {
     this.matrix.clear();
     this.spline.context(this.matrix.context);
     this.drawAllSplines();
-
-    if (this.config.debugging) {
-      this.drawAllPoints();
-    }
   }
   /**
    * Iterate through all existing curves and upgrade
@@ -101,7 +101,7 @@ export class GraphService {
   }
 
   public startAnimation(): void {
-    this.timer = d3.interval(t => {
+    this.timer = d3.timer(t => {
       this.graphs.forEach((graph, i, graphs) => {
         graphs[i] = {
           ...graph,
@@ -120,7 +120,8 @@ export class GraphService {
         };
       });
       this.draw();
-    }, 1000 / 50);
+    });
+    // }, 1000 / 60);
   }
 
   public stopAnimation(): void {

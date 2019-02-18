@@ -23,4 +23,17 @@ export class MathService {
       Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)
     );
   }
+
+  /**
+   * Flip sign each iteration
+   *
+   * @param startPositive
+   */
+  public *flipSign(startPositive: boolean = true) {
+    let sign = startPositive ? 1 : -1;
+
+    while (true) {
+      yield sign = sign * (-1);
+    }
+  }
 }
