@@ -17,7 +17,8 @@ export class AppComponent {
       margin: {
         spline: 20,
         entry: 4
-      }
+      },
+      debug: true
     };
   }
 }

@@ -17,7 +17,7 @@ export class ConfigService {
     this.defaults = {
       points: 3,
       splines: 1,
-      overshoot: 1,
+      overshoot: 0.4,
       vector: {
         in: {
           direction: 0,
@@ -38,14 +38,15 @@ export class ConfigService {
       },
       stroke: {
         width: 1,
-        color: '#000'
+        color: '#000000'
       },
       animation: {
         enabled: false,
         fps: 60,
         frequency: 16,
         amplitude: 40
-      }
+      },
+      debug: false
     };
   }
 
@@ -68,9 +69,21 @@ export class ConfigService {
     return this.config.splines;
   }
 
+  public get color(): string {
+    return this.config.stroke.color;
+  }
+
+  public get debugging(): boolean {
+    return this.config.debug;
+  }
+
   public get graph(): any {
     return {
       stroke: this.config.stroke
     };
+  }
+
+  public get all(): Config {
+    return this.config;
   }
 }

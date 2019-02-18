@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class MatrixService {
 
   private defaults: Matrix;
-  private canvasEl: Element;
+  private canvasEl: HTMLCanvasElement;
   private matrix: Matrix;
 
   /**
@@ -22,6 +22,28 @@ export class MatrixService {
     };
   }
 
+  public reset(canvas: HTMLCanvasElement, parent: Element): void {
+    this.canvasEl = canvas;
+    this.matrix = {
+      ...this.defaults
+    };
+    this.resize(parent);
+  }
+
+  public resize(parent: Element): void {
+    this.matrix.width = this.canvasEl.width = parent.clientWidth;
+    this.matrix.height = this.canvasEl.height = parent.clientHeight;
+  }
+  /**
+   * Calculate center of matrix area.
+   */
+  public get center(): Point {
+    return {
+      x: this.matrix.width / 2,
+      y: this.matrix.height / 2
+    };
+  }
+
   public get width(): number {
     return this.matrix.width;
   }
@@ -30,18 +52,11 @@ export class MatrixService {
     return this.matrix.height;
   }
 
-  public get center(): Point {
-    return {
-      x: this.matrix.width / 2,
-      y: this.matrix.height / 2
-    };
+  public get all(): Matrix {
+    return this.matrix;
   }
 
-  public reset(element: Element): void {
-    this.matrix = {
-      ...this.defaults,
-      width: element.scrollWidth,
-      height: element.scrollHeight
-    };
+  public get context(): CanvasRenderingContext2D {
+    return this.canvasEl.getContext('2d');
   }
 }

@@ -1,3 +1,6 @@
+import { MathService } from './math.service';
+import { Point } from './../models/point.model';
+import { MatrixService } from './matrix.service';
 import { Curve } from './../models/curve.model';
 import { Graph } from './../models/graph.model';
 import { Injectable } from '@angular/core';
@@ -19,7 +22,9 @@ export class GraphService {
    */
   constructor(
     private curves: CurveService,
-    private config: ConfigService
+    private config: ConfigService,
+    private matrix: MatrixService,
+    private math: MathService
   ) {
     this.defaults = {
       points: [],
@@ -30,12 +35,36 @@ export class GraphService {
     };
   }
 
+  private drawAllPoints(): void {
+    this.graphs.forEach(
+      graph => {
+        graph.points.forEach(
+          point => this.drawPoint(point)
+        );
+      }
+    );
+  }
+
+  private drawPoint(point: Point): void {
+    console.log(point);
+    this.matrix.context.fillStyle = this.config.color;
+    this.matrix.context.beginPath();
+    this.matrix.context.arc(point.x, point.y, 4, 0, this.math.τ, true);
+    this.matrix.context.fill();
+    this.matrix.context.closePath();
+  }
+
+  public draw(): void {
+    if (this.config.debugging) {
+      this.drawAllPoints();
+    }
+  }
   /**
    * Iterate through all existing curves and upgrade
    * each graph's information with missing data.
    */
   public reset(): void {
-    this.graphs = {
+    this.graphs = [
       ...this.curves.all.map((curve: Curve): Graph => {
         return {
           ...this.defaults,
@@ -43,7 +72,7 @@ export class GraphService {
           points: curve.points
         };
       })
-    };
+    ];
   }
 
   public get all(): Graph[] {

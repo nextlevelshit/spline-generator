@@ -26,7 +26,7 @@ export class PointService {
   public get entryPointIn(): Point {
     return {
       x: 0,
-      y: 0,
+      y: this.matrix.height,
       flag: {
         entry: true
       }
@@ -35,7 +35,7 @@ export class PointService {
 
   public get entryPointOut(): Point {
     return {
-      x: 0,
+      x: this.matrix.width,
       y: 0,
       flag: {
         entry: true
@@ -46,7 +46,7 @@ export class PointService {
   public get vectorPointIn(): Point {
     return {
       x: 0,
-      y: 0,
+      y: this.matrix.height / 2,
       flag: {
         vector: true
       }
@@ -55,8 +55,8 @@ export class PointService {
 
   public get vectorPointOut(): Point {
     return {
-      x: 0,
-      y: 0,
+      x: this.matrix.width,
+      y: this.matrix.height / 2,
       flag: {
         vector: true
       }
@@ -70,6 +70,6 @@ export class PointService {
 
   private get randomY(): number {
     const radius = this.matrix.height / 2 * this.config.overshoot;
-    return this.matrix.center.x + d3.randomNormal()() * radius;
+    return this.matrix.center.y + d3.randomNormal()() * radius;
   }
 }

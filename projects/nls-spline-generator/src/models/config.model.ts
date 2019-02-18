@@ -97,5 +97,10 @@ export interface Config {
      */
     amplitude: number;
   };
+  /**
+   * Enable debug mode to draw all helpers like
+   * points etc.
+   */
+  debug?: boolean;
 }
 
