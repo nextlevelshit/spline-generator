@@ -4,7 +4,7 @@ import { PointService } from './../services/point.service';
 import { Curve } from './../models/curve.model';
 import { MatrixService } from './../services/matrix.service';
 import { Config } from './../models/config.model';
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { ConfigService } from '../services/config.service';
 import * as d3 from 'd3';
 
@@ -12,16 +12,25 @@ import * as d3 from 'd3';
   // tslint:disable-next-line:component-selector
   selector: 'nls-spline-generator',
   // tslint:disable-next-line:max-line-length
-  templateUrl: './nls-spline-generator.component.html'
+  templateUrl: './nls-spline-generator.component.html',
+  styleUrls: ['./nls-spline-generator.component.scss']
 })
 export class NlsSplineGeneratorComponent implements OnChanges {
+
+  private resizeTimeout: any;
 
   @Input() configInput: Config;
   @ViewChild('matrix') matrixEl;
   @ViewChild('svg') svgEl;
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.startResizeTimeout();
+  }
+
   constructor(
     private el: ElementRef,
+    private renderer: Renderer2,
     private matrix: MatrixService,
     private config: ConfigService,
     private curves: CurveService,
@@ -31,20 +40,21 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.resetConfig();
 
     if (!this.curves.all && !this.graphs.all) {
       this.init();
-    } else {
-      this.toggleAnimation();
     }
+
+    this.toggleAnimation();
   }
 
   private init(): void {
+    this.resetConfig();
     this.resetMatrix();
     this.resetCurves();
     this.resetGraphs();
     this.drawGraphs();
+    this.fadeIn();
   }
   /**
    * Draw graphs onto canvas element.
@@ -97,5 +107,23 @@ export class NlsSplineGeneratorComponent implements OnChanges {
     } else {
       this.graphs.stopAnimation();
     }
+  }
+
+  private startResizeTimeout(): void {
+    this.fadeOut();
+    if (this.resizeTimeout) {
+      this.resizeTimeout.stop();
+    }
+    this.resizeTimeout = d3.timeout(() => {
+      this.init();
+    }, 360);
+  }
+
+  public fadeIn(): void {
+    this.renderer.addClass(this.matrixEl.nativeElement, 'visible');
+  }
+
+  public fadeOut(): void {
+    this.renderer.removeClass(this.matrixEl.nativeElement, 'visible');
   }
 }

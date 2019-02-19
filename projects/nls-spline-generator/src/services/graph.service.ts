@@ -104,7 +104,7 @@ export class GraphService {
   }
 
   public startAnimation(): void {
-    this.timer = d3.timer(t => {
+    this.timer = d3.interval(t => {
       this.graphs.forEach((graph, i, graphs) => {
         graphs[i] = {
           ...graph,
@@ -126,13 +126,14 @@ export class GraphService {
       });
 
       this.draw();
-    });
-    // }, 1000 / 60);
+    }, 1000 / this.config.animation.fps);
   }
 
   public stopAnimation(): void {
-    this.timer.stop();
-    this.timer = null;
+    if (this.timer) {
+      this.timer.stop();
+      this.timer = null;
+    }
   }
 
   public get all(): Graph[] {

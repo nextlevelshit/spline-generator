@@ -48,7 +48,8 @@ export class ConfigService {
         enabled: false,
         fps: 60,
         frequency: 16,
-        amplitude: 40,
+        amplitude: 4,
+        radius: 30,
         ticks: 2500
       },
       debug: false

@@ -23,13 +23,6 @@ export class NoiseService {
     private math: MathService,
     private points: PointService
   ) {
-
-  }
-
-  private get scaledUnit(): number {
-    const amplitude = this.config.animation.amplitude;
-    const randomScale = this.distort(amplitude);
-    return this.matrix.unit * randomScale;
   }
 
   private distort(num: number, leverage: number = 0.1): number {
@@ -53,8 +46,8 @@ export class NoiseService {
   public samples(noise: any, points: Point[]): Point[][] {
     return noise.map((simplex, i) => {
       const start = points[i];
-      const scale = this.scaledUnit;
-      const amplitude = this.config.animation.amplitude / 6;
+      const scale = this.distort(this.config.animation.radius);
+      const amplitude = this.config.animation.amplitude;
       const frequency = this.distort(this.config.animation.frequency, 0.5);
 
 

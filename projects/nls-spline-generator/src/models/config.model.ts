@@ -97,9 +97,13 @@ export interface Config {
     fps?: number;
     frequency?: number;
     /**
-     * Radius of noise generated node pathes
+     * Amplitude of noise generated animation pathes
      */
     amplitude?: number;
+    /**
+     * Radius of circular noise generated pathes
+     */
+   radius?: number;
     /**
      * Ticks per one animation cycle
      */
