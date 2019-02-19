@@ -1,27 +1,204 @@
-# SplineGenerator
+<h1 align="center"><strong>Spline Generator</strong></h1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+<div align="center">
+  <a href="https://npmjs.org/package/nls-spline-generator">
+    <img src="https://badgen.now.sh/npm/v/nls-spline-generator" alt="version" />
+  </a>
+</div>
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Getting started
 
-## Code scaffolding
+## 1) Add dependency to your project
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+# npm
+npm install nls-spline-generator --save
 
-## Build
+# yarn
+yarn add nls-spline-generator
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## 2) Import module to your Angular application
 
-## Running unit tests
+```ts
+// app.module.ts (default filename)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+import { NlsSplineGeneratoreModule } from 'nls-spline-generator';
 
-## Running end-to-end tests
+@NgModule({
+  declarations: [
+    // ...
+  ],
+  imports: [
+    // ...
+    NlsSplineGeneratoreModule
+  ],
+  providers: [
+    // ...
+  ],
+  bootstrap: [
+    // ...
+  ]
+})
+export class AppModule { }
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Further help
+## 4) Implement directive in your template
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Past in the configuration and set animation to `true` or `false` (default is `false`):
+
+```html
+<nls-spline-generator [config]="config"></nls-graphs>
+```
+
+## Usage only
+
+```ts
+// models/config.model.ts
+/**
+ * The Configuration stands for incoming parameters from outside
+ * to adjust the outcoming graphs.
+ */
+
+export interface Config {
+  /**
+   * Amount of orientation points, excl. entry and vector points
+   */
+  points?: number;
+  /**
+   * Points distributation factor depending on canvas size
+   */
+  overshoot?: number;
+  /**
+   * Amount of graphs
+   */
+  graphs?: number;
+  /**
+   * Amount of splines each graph
+   */
+  splines?: number;
+  /**
+   * Directional vectors coming next after entry points.
+   * Starting as well ending points of graph drawn on canvs.
+   * Enters the canvas (in)
+   * Leaves the canvas (off)
+   */
+  vector?: {
+    in?: {
+      /**
+       * Vector direction set by part of tau. Examples:
+       * 0 up, 0.25 right, 0.5 bottom, 0.75 left
+       */
+      direction: number;
+      /**
+       * Percentage of canvas height or width
+       */
+      tension: number;
+    },
+    out?: {
+      /**
+       * Vector direction set by part of tau. Examples:
+       * 0 up, 0.25 right, 0.5 bottom, 0.75 left
+       */
+      direction: number;
+      /**
+       * Percentage of canvas height or width
+       */
+      tension: number;
+    }
+  };
+  /**
+   * Configuration for Margins for Entrie Points, Splines and the Canvas at all.
+   */
+  margin?: {
+    /**
+     *  Margin between entry points of graphs
+     */
+    entry?: number;
+    /**
+     * Margin between splines of graphs
+     */
+    spline?: number;
+    canvas?: {
+      /**
+       * Horizontal margin between entry points and canvas boundries
+       */
+      x?: number;
+      /**
+       * Vertical margin between entry points and canvas boundries
+       */
+      y?: number;
+    }
+  };
+   /**
+    * Configuration of spline strokes
+    */
+  stroke?: {
+    /**
+     * Spline stroke width in pixel
+     */
+    width: number;
+    /**
+     * Spline stroke color in hexadecimal, rgb, etc.
+     */
+    colors: string[];
+  };
+  /**
+   * Configuration for Animation
+   */
+  animation?: {
+    enabled?: boolean;
+    /**
+     * Animation frames per second, default 60
+     */
+    fps?: number;
+    frequency?: number;
+    /**
+     * Amplitude of noise generated animation pathes
+     */
+    amplitude?: number;
+    /**
+     * Radius of circular noise generated pathes
+     */
+   radius?: number;
+    /**
+     * Ticks per one animation cycle
+     */
+    ticks?: number;
+  };
+  /**
+   * Enable debug mode to draw all helpers like
+   * points etc.
+   */
+  debug?: boolean;
+}
+```
+
+
+## Active Development (Advanced)
+
+### Rquirements
+
+- Node.js
+- Angular CLI
+
+### NPM Scripts
+
+| command          | description                                                      |
+|------------------|------------------------------------------------------------------|
+| `npm run start`  | start development server on `http://localhost:4200/`             |
+| `npm run build`  | build production application and save to `./dist`                |
+| `npm run build:library` | build node module and save to `./dist/NlsSplineGenerator` | 
+
+## Contributors
+
+- Main Author and Realisation [Michael Czechowski](//github.com/nextlevelshit)
+- Consultant [Martin Maga](//github.com/qualiacode)
+- Idea and Concept [Bernhard Kinzler](//b612-design.de)
+
+## License
+
+> pending

@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --aot -o",
+    "build": "ng build --prod",
+    "build:library": "ng build nls-spline-generator",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
