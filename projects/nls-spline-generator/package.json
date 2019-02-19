@@ -12,9 +12,7 @@
   },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0"
-  },
-  "dependencies": {
+    "@angular/core": "^7.2.0",
     "d3": "^5.9.1",
     "tooloud": "^2.0.4"
   }
