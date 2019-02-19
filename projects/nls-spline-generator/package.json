@@ -1,8 +1,21 @@
 {
   "name": "nls-spline-generator",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextlevelshit/nls-spline-generator"
+  },
+  "author": {
+    "name": "Michael Czechowski",
+    "email": "mail@dailysh.it",
+    "url": "https://dailysh.it"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"
+  },
+  "dependencies": {
+    "d3": "^5.9.1",
+    "tooloud": "^2.0.4"
   }
 }
