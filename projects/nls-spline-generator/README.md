@@ -51,7 +51,7 @@ export class AppModule { }
 Past in the configuration and set animation to `true` or `false` (default is `false`):
 
 ```html
-<nls-spline-generator [config]="config"></nls-graphs>
+<nls-spline-generator [config]="config"></nls-spline-generator>
 ```
 
 ## Usage only
