@@ -20,9 +20,17 @@ export interface Point {
   };
   /**
    * Set of functions to generate next points on
-   * animation trail.
+   * animation trail
    */
   generator?: Iterator<Point>;
+  /**
+   * Set of points precompiled for animation trail
+   */
+  precompiled?: Point[];
+  /**
+   * Current position inside precompiled points
+   */
+  tick?: number;
   /**
    * Distance between point and center of matrix
    */

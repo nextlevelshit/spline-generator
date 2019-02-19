@@ -54,13 +54,31 @@ export class CurveService {
         }).reduceRight((acc, val, j) => {
           return j % 2 === 0 ? [...acc, val] : [val, ...acc];
         }, []);
+      const precompiledPoints = generators.map(generator => {
+        return d3.range(this.config.animation.ticks).map(() => {
+          return generator.next().value;
+        });
+      });
 
-      const points =  generators.map(generator => {
-        const point = generator.next().value;
+      // const points =  generators.map(generator => {
+      //   const point = generator.next().value;
+      //   return {
+      //     x: point.x,
+      //     y: point.y,
+      //     generator,
+      //     precompiled,
+      //     tick
+      //   };
+      // });
+
+      const points = precompiledPoints.map(precompiled => {
+        const tick = Math.floor(d3.randomUniform(0, this.config.animation.ticks)());
+        const point = precompiled[tick];
         return {
           x: point.x,
           y: point.y,
-          generator
+          precompiled,
+          tick
         };
       });
 

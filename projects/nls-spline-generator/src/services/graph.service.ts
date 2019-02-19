@@ -113,7 +113,9 @@ export class GraphService {
               if (point.flag) {
                 return point;
               } else {
-                const next = point.generator.next().value;
+                const tick = point.tick++ % point.precompiled.length;
+                const next = point.precompiled[tick];
+                // const next = point.generator.next().value;
                 return {
                   ...point,
                   x: next.x,

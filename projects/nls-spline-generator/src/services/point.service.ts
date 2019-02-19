@@ -127,9 +127,10 @@ export class PointService {
   ) {
     const totalLength = path.getTotalLength();
     const direction = (clockwise) ? totalLength : 0;
-    const ticks = Math.floor(
-      ticksAverage + ticksAverage * d3.randomNormal(0, 0.2)()
-    );
+    // const ticks = Math.floor(
+    //   ticksAverage + ticksAverage * d3.randomNormal(0, 0.2)()
+    // );
+    const ticks = ticksAverage;
     const pointsList = d3.range(ticks).map((n) => {
       const step = n * totalLength / ticks;
       return path.getPointAtLength(Math.abs(direction - step));
