@@ -26,12 +26,14 @@ export class AppComponent {
       },
       vector: {
         in: {
-          tension: 0.3,
-          direction: 0.25
+          direction: 0.25,
+          margin: 100,
+          tension: 0.1
         },
         out: {
-          tension: 0.3,
-          direction: 1
+          direction: 1,
+          margin: 100,
+          tension: 0.1
         }
       },
       stroke: {
@@ -50,7 +52,7 @@ export class AppComponent {
     };
   }
 
-  public toggleAnimation(): void {
+  public toggleAnimation(event): void {
     this.config = {
       ...this.config,
       animation: {

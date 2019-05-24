@@ -12,8 +12,8 @@ export class PointService {
 
   private entryShiftIn: Iterator<Point>;
   private entryShiftOut: Iterator<Point>;
-  private previouseEntryPointIn: Point;
-  private previouseEntryPointOut: Point;
+  private previousEntryPointIn: Point;
+  private previousEntryPointOut: Point;
 
   constructor(
     private config: ConfigService,

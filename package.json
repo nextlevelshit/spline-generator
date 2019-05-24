@@ -6,6 +6,9 @@
     "start": "ng serve --aot -o",
     "build": "ng build --prod",
     "build:library": "ng build nls-spline-generator",
+    "copy:readme": "cp ./README.md ./projects/nls-spline-generator/README.md",
+    "copy:license": "cp ./LICENSE ./projects/nls-spline-generator/LICENSE",
+    "library:files": "npm run copy:readme",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -25,11 +25,13 @@ export class ConfigService {
       vector: {
         in: {
           direction: 0,
-          tension: 0
+          margin: 0,
+          tension: 0.1
         },
         out: {
           direction: 1,
-          tension: 0
+          margin: 0,
+          tension: 0.1
         }
       },
       margin: {

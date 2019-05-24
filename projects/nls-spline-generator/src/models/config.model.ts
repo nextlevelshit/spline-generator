@@ -9,7 +9,7 @@ export interface Config {
    */
   points?: number;
   /**
-   * Points distributation factor depending on canvas size
+   * Points distribution factor depending on canvas size
    */
   overshoot?: number;
   /**
@@ -22,7 +22,7 @@ export interface Config {
   splines?: number;
   /**
    * Directional vectors coming next after entry points.
-   * Starting as well ending points of graph drawn on canvs.
+   * Starting as well ending points of graph drawn on canvas.
    * Enters the canvas (in)
    * Leaves the canvas (off)
    */
@@ -33,6 +33,10 @@ export interface Config {
        * 0 up, 0.25 right, 0.5 bottom, 0.75 left
        */
       direction: number;
+      /**
+       * Margin between canvas border and first graph curve (px)
+       */
+      margin: number;
       /**
        * Percentage of canvas height or width
        */
@@ -45,13 +49,17 @@ export interface Config {
        */
       direction: number;
       /**
+       * Margin between canvas border and first graph curve (px)
+       */
+      margin: number;
+      /**
        * Percentage of canvas height or width
        */
       tension: number;
     }
   };
   /**
-   * Configuration for Margins for Entrie Points, Splines and the Canvas at all.
+   * Configuration for Margins for Entry Points, Splines and the Canvas at all.
    */
   margin?: {
     /**
@@ -64,11 +72,11 @@ export interface Config {
     spline?: number;
     canvas?: {
       /**
-       * Horizontal margin between entry points and canvas boundries
+       * Horizontal margin between entry points and canvas boundaries
        */
       x?: number;
       /**
-       * Vertical margin between entry points and canvas boundries
+       * Vertical margin between entry points and canvas boundaries
        */
       y?: number;
     }
@@ -97,11 +105,11 @@ export interface Config {
     fps?: number;
     frequency?: number;
     /**
-     * Amplitude of noise generated animation pathes
+     * Amplitude of noise generated animation paths
      */
     amplitude?: number;
     /**
-     * Radius of circular noise generated pathes
+     * Radius of circular noise generated paths
      */
    radius?: number;
     /**
