@@ -88,17 +88,21 @@ export class MatrixService {
     const entryWidth = this.config.margin.entry * entryShift;
     const marginX = this.config.margin.canvas.x + entryWidth;
     const marginY = this.config.margin.canvas.y + entryWidth;
-    const radiansIn = this.config.vector.in.direction * this.math.τ;
-    const radiansOut = this.config.vector.out.direction * this.math.τ;
+    // const radiansIn = this.config.vector.in.direction * this.math.τ;
+    // const radiansOut = this.config.vector.out.direction * this.math.τ;
 
     const entries = {
       in: {
-        x: marginX * Math.abs(Math.cos(radiansIn)),
-        y: this.matrix.height - marginY * Math.abs(Math.sin(radiansIn))
+        x: marginX,
+        // x: marginX * Math.abs(Math.cos(radiansIn)) + this.config.vector.in.margin,
+        y: this.matrix.height - marginY
+        // y: this.matrix.height - marginY * Math.abs(Math.sin(radiansIn))
       },
       out: {
-        x: this.matrix.width - marginX * Math.abs(Math.cos(radiansOut)),
-        y: marginY * Math.abs(Math.sin(radiansOut))
+        x: this.matrix.width - marginX,
+        // x: this.matrix.width - marginX * Math.abs(Math.cos(radiansOut)),
+        y: marginY
+        // y: marginY * Math.abs(Math.sin(radiansOut))
       }
     };
 

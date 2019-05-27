@@ -33,6 +33,7 @@ export class GraphService {
     private math: MathService,
     private points: PointService
   ) {
+    this.timer = undefined;
     this.defaults = {
       points: [],
       stroke: {
@@ -81,12 +82,44 @@ export class GraphService {
     this.matrix.context.closePath();
   }
 
+  private updateGraphs(): void {
+    this.graphs.forEach((graph, i, graphs) => {
+      graphs[i] = {
+        ...graph,
+        points: this.points.appendRadians(
+          graph.points.map((point) => {
+            if (point.flag) {
+              return point;
+            } else {
+              const tick = point.tick++ % point.precompiled.length;
+              const next = point.precompiled[tick];
+              // const next = point.generator.next().value;
+              return {
+                ...point,
+                x: next.x,
+                y: next.y
+              };
+            }
+          })
+        )
+      };
+    });
+  }
+
+  private loopAnimation(): void {
+    this.timer = undefined;
+    this.updateGraphs();
+    this.draw();
+    this.startAnimation();
+  }
+
   public draw(): void {
     this.matrix.clear();
     this.spline.context(this.matrix.context);
     this.curves.appendRadians();
     this.drawAllSplines();
   }
+
   /**
    * Iterate through all existing curves and upgrade
    * each graph's information with missing data.
@@ -104,37 +137,15 @@ export class GraphService {
   }
 
   public startAnimation(): void {
-    this.timer = d3.interval(t => {
-      this.graphs.forEach((graph, i, graphs) => {
-        graphs[i] = {
-          ...graph,
-          points: this.points.appendRadians(
-            graph.points.map((point) => {
-              if (point.flag) {
-                return point;
-              } else {
-                const tick = point.tick++ % point.precompiled.length;
-                const next = point.precompiled[tick];
-                // const next = point.generator.next().value;
-                return {
-                  ...point,
-                  x: next.x,
-                  y: next.y
-                };
-              }
-            })
-          )
-        };
-      });
-
-      this.draw();
-    }, 1000 / this.config.animation.fps);
+    if (!this.timer) {
+      this.timer = requestAnimationFrame(() => this.loopAnimation());
+    }
   }
 
   public stopAnimation(): void {
     if (this.timer) {
-      this.timer.stop();
-      this.timer = null;
+      cancelAnimationFrame(this.timer);
+      this.timer = undefined;
     }
   }
 

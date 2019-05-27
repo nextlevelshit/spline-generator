@@ -17,7 +17,7 @@ export class AppComponent {
       splines: 17,
       overshoot: 0.5,
       margin: {
-        spline: 40,
+        spline: 30,
         entry: 5,
         canvas: {
           x: 20,
@@ -37,16 +37,16 @@ export class AppComponent {
         }
       },
       stroke: {
-        width: 1.2,
+        width: 1,
         colors: ['#F8485E', '#5CC0C7'],
       },
       animation: {
         enabled: true,
-        amplitude: 0.4,
-        radius: 80,
-        frequency: 18,
+        amplitude: 0.5,
+        radius: 300,
+        frequency: 12,
         fps: 50,
-        ticks: 1000
+        ticks: 1300
       },
       debug: false
     };
