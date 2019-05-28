@@ -1,8 +1,6 @@
 /**
- * The Configuration stands for incoming parameters from outside
- * to adjust the outcoming graphs.
+ * The main Configuration of graphs, vectors and canvas.
  */
-
 export interface Config {
   /**
    * Amount of orientation points, excl. entry and vector points
@@ -72,13 +70,12 @@ export interface Config {
     spline?: number;
     canvas?: {
       /**
-       * Horizontal margin between entry points and canvas boundaries
+       * Margin between entry points and canvas boundaries
        */
-      x?: number;
-      /**
-       * Vertical margin between entry points and canvas boundaries
-       */
-      y?: number;
+      top?: number;
+      right?: number;
+      bottom?: number;
+      left?: number;
     }
   };
    /**

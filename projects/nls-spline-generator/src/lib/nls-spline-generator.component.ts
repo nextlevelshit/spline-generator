@@ -64,7 +64,7 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   }
   /**
    * Reset graphs after curves parameters has
-   * been set. The generated points are neeeded
+   * been set. The generated points are needed
    * for correct graph setup.
    */
   private resetGraphs(): void {

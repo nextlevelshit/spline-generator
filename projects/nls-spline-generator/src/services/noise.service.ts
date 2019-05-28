@@ -2,7 +2,7 @@ import { MathService } from './math.service';
 import { MatrixService } from './matrix.service';
 import { Point } from './../models/point.model';
 import { Config } from './../models/config.model';
-import { Injectable, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
 import tooloud from 'tooloud';
 import * as d3 from 'd3';
@@ -37,7 +37,7 @@ export class NoiseService {
 
   /**
    * Generating lists of samples for the animation trail. The
-   * animation trail is a circular path, but distored through
+   * animation trail is a circular path, but distorted through
    * simplex noise adaption.
    *
    * @param noise
@@ -46,16 +46,18 @@ export class NoiseService {
   public samples(noise: any, points: Point[]): Point[][] {
     return noise.map((simplex, i) => {
       const start = points[i];
-      const scale = this.distort(this.config.animation.radius);
-      const amplitude = this.config.animation.amplitude;
-      const frequency = this.distort(this.config.animation.frequency, 0.5);
-
+      // const amplitude = this.config.animation.amplitude;
+      // const frequency = this.distort(this.config.animation.frequency, 0.5);
+      const { frequency, amplitude, radius } = this.config.animation;
+      const scaledRadius = radius * this.gaussianBell(i, noise.length);
 
       return d3.range(frequency).map((sample, j) => {
+        // const scale = this.distort(this.config.animation.radius, 0.4);
+        // const radius =
         const radians = j / frequency * this.math.τ;
-        const x = start.x + Math.sin(radians) * scale;
-        const y = start.y + Math.cos(radians) * scale;
-        const noisedScale = scale + simplex.noise(x, y, 0) * amplitude * scale;
+        const x = start.x + Math.sin(radians) * scaledRadius;
+        const y = start.y + Math.cos(radians) * scaledRadius;
+        const noisedScale = scaledRadius + simplex.noise(x, y, 0) * amplitude * scaledRadius;
 
         return {
           x: Math.sin(radians) * noisedScale + start.x,
@@ -63,6 +65,10 @@ export class NoiseService {
         };
       });
     });
+  }
+
+  public gaussianBell(n: number, total: number): number {
+    return d3.randomNormal(n % total / 2, total / 10)();
   }
 
   /**
@@ -78,7 +84,7 @@ export class NoiseService {
       .append('g')
       .attr('fill', 'none')
       .attr('fill-opacity', 0)
-      .attr('stroke-opacity', 0)
+      .attr('stroke-opacity', 1)
       .attr('stroke-width', 1)
       .attr('stroke', '#000');
 

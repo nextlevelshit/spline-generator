@@ -27,8 +27,8 @@ export class GraphService {
    * has been left empty.
    */
   constructor(
-    private curves: CurveService,
     private config: ConfigService,
+    private curves: CurveService,
     private matrix: MatrixService,
     private math: MathService,
     private points: PointService
@@ -60,12 +60,15 @@ export class GraphService {
   }
 
   private drawSpline(points: Point[], stroke: any): void {
-    this.matrix.context.beginPath();
-    this.matrix.context.lineWidth = stroke.width;
-    this.matrix.context.strokeStyle = stroke.color;
+    const { context } = this.matrix;
+
+    context.beginPath();
+    context.lineWidth = stroke.width;
+    context.strokeStyle = stroke.color;
+    context.globalCompositeOperation = 'source-over';
     this.spline(points);
-    this.matrix.context.stroke();
-    this.matrix.context.closePath();
+    context.stroke();
+    context.closePath();
   }
 
   private drawPointsOfSpline(points: Point[]): void {
@@ -75,11 +78,13 @@ export class GraphService {
   }
 
   private drawPoint(point: Point): void {
-    this.matrix.context.fillStyle = this.config.color;
-    this.matrix.context.beginPath();
-    this.matrix.context.arc(point.x, point.y, 4, 0, this.math.τ, true);
-    this.matrix.context.fill();
-    this.matrix.context.closePath();
+    const { context } = this.matrix;
+
+    context.fillStyle = this.config.color;
+    context.beginPath();
+    context.arc(point.x, point.y, 4, 0, this.math.τ, true);
+    context.fill();
+    context.closePath();
   }
 
   private updateGraphs(): void {
@@ -116,7 +121,7 @@ export class GraphService {
   public draw(): void {
     this.matrix.clear();
     this.spline.context(this.matrix.context);
-    this.curves.appendRadians();
+    // this.curves.appendRadians();
     this.drawAllSplines();
   }
 

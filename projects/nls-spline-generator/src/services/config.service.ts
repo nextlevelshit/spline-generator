@@ -38,8 +38,10 @@ export class ConfigService {
         spline: 2,
         entry: 2,
         canvas: {
-          x: 10,
-          y: 10
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
         }
       },
       stroke: {

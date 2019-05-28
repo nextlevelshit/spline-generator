@@ -46,16 +46,21 @@ export class MatrixService {
   }
 
   public resize(parent: Element): void {
-    this.matrix.width = this.canvasEl.width = parent.clientWidth;
-    this.matrix.height = this.canvasEl.height = parent.clientHeight;
+    const { clientWidth, clientHeight } = parent;
+
+    this.matrix.width = this.canvasEl.width = clientWidth;
+    this.matrix.height = this.canvasEl.height = clientHeight;
   }
   /**
    * Calculate center of matrix area.
    */
   public get center(): Point {
+    const { width, height } = this.matrix;
+    const { top, right, bottom, left } = this.config.margin.canvas;
+
     return {
-      x: this.matrix.width / 2,
-      y: this.matrix.height / 2
+      x: (width + left - right) / 2,
+      y: (height + top - bottom) / 2
     };
   }
 
@@ -84,24 +89,26 @@ export class MatrixService {
   }
 
   public get entries(): any {
-    const entryShift = Math.floor(this.config.graphs / 2);
-    const entryWidth = this.config.margin.entry * entryShift;
-    const marginX = this.config.margin.canvas.x + entryWidth;
-    const marginY = this.config.margin.canvas.y + entryWidth;
+    const { height, width } = this.matrix;
+    const { graphs, margin } = this.config;
+    const { entry, canvas } = margin;
+    const { top, right, bottom, left } = canvas;
+    const entryShift = Math.floor(graphs / 2);
+    const entryWidth = entry * entryShift;
     // const radiansIn = this.config.vector.in.direction * this.math.τ;
     // const radiansOut = this.config.vector.out.direction * this.math.τ;
 
     const entries = {
       in: {
-        x: marginX,
+        x: left + entryWidth,
         // x: marginX * Math.abs(Math.cos(radiansIn)) + this.config.vector.in.margin,
-        y: this.matrix.height - marginY
+        y: height - bottom - entryWidth
         // y: this.matrix.height - marginY * Math.abs(Math.sin(radiansIn))
       },
       out: {
-        x: this.matrix.width - marginX,
+        x: width - right - entryWidth,
         // x: this.matrix.width - marginX * Math.abs(Math.cos(radiansOut)),
-        y: marginY
+        y: top + entryWidth
         // y: marginY * Math.abs(Math.sin(radiansOut))
       }
     };

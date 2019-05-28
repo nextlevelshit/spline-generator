@@ -12,41 +12,43 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 5,
+      points: 7,
       graphs: 2,
-      splines: 17,
-      overshoot: 0.5,
+      splines: 8,
+      overshoot: 0.3,
       margin: {
-        spline: 30,
+        spline: 20,
         entry: 5,
         canvas: {
-          x: 20,
-          y: 20
+          top: 10,
+          right: 10,
+          bottom: 200,
+          left: 400
         }
       },
       vector: {
         in: {
           direction: 0.25,
           margin: 100,
-          tension: 0.1
+          tension: 0.2
         },
         out: {
           direction: 1,
           margin: 100,
-          tension: 0.1
+          tension: 0.2
         }
       },
       stroke: {
-        width: 1,
+        width: 1.2,
         colors: ['#F8485E', '#5CC0C7'],
       },
       animation: {
         enabled: true,
-        amplitude: 0.5,
-        radius: 300,
-        frequency: 12,
+        amplitude: 0.4,
+        radius: 30,
+        frequency: 7,
         fps: 50,
-        ticks: 1300
+        ticks: 2000
       },
       debug: false
     };
