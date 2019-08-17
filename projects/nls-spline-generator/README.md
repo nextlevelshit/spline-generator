@@ -229,7 +229,7 @@ npm run build:library
 #### 5. Publishing to npm
 
 ```bash
-cd dist/spline-generator
+cd dist/nls-spline-generator
 npm publish
 cd ../..
 ```
