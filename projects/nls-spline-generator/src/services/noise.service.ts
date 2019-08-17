@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
 import tooloud from 'tooloud';
 import * as d3 from 'd3';
-import { domRendererFactory3 } from '@angular/core/src/render3/interfaces/renderer';
 import { Curve } from '../models/curve.model';
 import { PointService } from './point.service';
 

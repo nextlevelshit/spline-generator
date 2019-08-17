@@ -20,8 +20,8 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   private resizeTimeout: any;
 
   @Input() configInput: Config;
-  @ViewChild('matrix') matrixEl;
-  @ViewChild('svg') svgEl;
+  @ViewChild('matrix', { static: true }) matrixEl;
+  @ViewChild('svg', { static: true }) svgEl;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
