@@ -95,6 +95,10 @@ export interface Config {
       /**
        * Margin between canvas border and first graph curve (px)
        */
+      margin: number;
+      /**
+       * Percentage of canvas height or width
+       */
       tension: number;
     },
     out?: {
@@ -105,6 +109,10 @@ export interface Config {
       direction: number;
       /**
        * Margin between canvas border and first graph curve (px)
+       */
+      margin: number;
+      /**
+       * Percentage of canvas height or width
        */
       tension: number;
     }
@@ -146,14 +154,14 @@ export interface Config {
     colors: string[];
   };
   /**
+   * Background color of canvas (default transprent)
+   */
+  background?: string;
+  /**
    * Configuration for Animation
    */
   animation?: {
     enabled?: boolean;
-    /**
-     * Animation frames per second, default 60
-     */
-    fps?: number;
     frequency?: number;
     /**
      * Amplitude of noise generated animation pathes
@@ -175,7 +183,6 @@ export interface Config {
   debug?: boolean;
 }
 ```
-
 
 ## Active Development (Advanced)
 
@@ -222,7 +229,7 @@ npm run build:library
 #### 5. Publishing to npm
 
 ```bash
-cd dist/nls-guilloche
+cd dist/spline-generator
 npm publish
 cd ../..
 ```
