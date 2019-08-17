@@ -41,21 +41,28 @@ export class CurveService {
   }
 
   public prepareAnimationPaths(): void {
+    const { center } = this.matrix;
+    const { animation } = this.config;
+    const { ticks } = animation;
+
     this.curves.forEach((curve: Curve, i, curves: Curve[]) => {
-      const simplexNoise = this.noise.init();
-      const samples = this.noise.samples(simplexNoise, curve.points);
+      const { points } = curve;
+
+      const simplexNoise = this.noise.init(points.length);
+      const samples = this.noise.samples(simplexNoise, points);
       const paths = this.noise.paths(samples);
       const generators = this.noise.generators(paths)
         .sort((a: Iterator<Point>, b: Iterator<Point>) => {
-          const deltaAtoCenter = this.math.Δ(a.next().value, this.matrix.center);
-          const deltaBtoCenter = this.math.Δ(b.next().value, this.matrix.center);
+          const deltaAtoCenter = this.math.Δ(a.next().value, center);
+          const deltaBtoCenter = this.math.Δ(b.next().value, center);
 
           return a.next().value.distanceToCenter - b.next().value.distanceToCenter;
         }).reduceRight((acc, val, j) => {
           return j % 2 === 0 ? [...acc, val] : [val, ...acc];
         }, []);
+
       const precompiledPoints = generators.map(generator => {
-        return d3.range(this.config.animation.ticks).map(() => {
+        return d3.range(ticks).map(() => {
           return generator.next().value;
         });
       });
@@ -71,9 +78,10 @@ export class CurveService {
       //   };
       // });
 
-      const points = precompiledPoints.map(precompiled => {
-        const tick = Math.floor(d3.randomUniform(0, this.config.animation.ticks)());
+      const newPoints = precompiledPoints.map(precompiled => {
+        const tick = Math.floor(d3.randomUniform(0, ticks)());
         const point = precompiled[tick];
+
         return {
           x: point.x,
           y: point.y,
@@ -82,7 +90,7 @@ export class CurveService {
         };
       });
 
-      curves[i] = { points };
+      curves[i] = { points: newPoints };
     });
   }
 
@@ -101,7 +109,7 @@ export class CurveService {
 
   public splines(curve: Point[]): Point[][] {
     const median = Math.floor(curve.length / 2);
-    const siblings = (this.config.points > 5)
+    const siblings = (curve.length > 9)
       ? [median - 1, median, median + 1]
       : [median];
     // Prepare spread generators for median siblings

@@ -31,7 +31,11 @@ export class MatrixService {
   }
 
   public clear(): void {
+    const { background } = this.config;
+
     this.context.clearRect(0, 0, this.matrix.width, this.matrix.height);
+    this.context.fillStyle = background;
+    this.context.fillRect(0, 0, this.matrix.width, this.matrix.height);
   }
 
   public reset(

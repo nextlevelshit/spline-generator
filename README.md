@@ -154,14 +154,14 @@ export interface Config {
     colors: string[];
   };
   /**
+   * Background color of canvas (default transprent)
+   */
+  background?: string;
+  /**
    * Configuration for Animation
    */
   animation?: {
     enabled?: boolean;
-    /**
-     * Animation frames per second, default 60
-     */
-    fps?: number;
     frequency?: number;
     /**
      * Amplitude of noise generated animation pathes

@@ -12,15 +12,15 @@ export class AppComponent {
 
   constructor() {
     this.config = {
-      points: 7,
+      points: 4,
       graphs: 2,
-      splines: 8,
+      splines: 20,
       overshoot: 0.3,
       margin: {
-        spline: 20,
+        spline: 30,
         entry: 5,
         canvas: {
-          top: 10,
+          top: 300,
           right: 10,
           bottom: 200,
           left: 400
@@ -39,18 +39,18 @@ export class AppComponent {
         }
       },
       stroke: {
-        width: 1.2,
+        width: 1.1,
         colors: ['#F8485E', '#5CC0C7'],
       },
+      background: '#fff',
       animation: {
-        enabled: true,
+        enabled: false,
         amplitude: 0.4,
-        radius: 30,
+        radius: 90,
         frequency: 7,
-        fps: 50,
         ticks: 2000
       },
-      debug: false
+      debug: true
     };
   }
 

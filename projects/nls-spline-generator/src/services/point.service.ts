@@ -18,8 +18,7 @@ export class PointService {
   constructor(
     private config: ConfigService,
     private matrix: MatrixService,
-    private math: MathService,
-    private points: PointService
+    private math: MathService
   ) {
   }
 
@@ -27,12 +26,13 @@ export class PointService {
     point: Point,
     vector: any
   ): Point {
-    const magnitudeX = this.matrix.width * vector.tension;
-    const magnitudeY = this.matrix.height * vector.tension;
+    const { direction, tension } = vector;
+    const magnitudeX = this.matrix.width * tension;
+    const magnitudeY = this.matrix.height * tension;
 
     return {
-      x: point.x + magnitudeX * Math.sin(this.math.τ * vector.direction),
-      y: point.y + magnitudeY * Math.cos(this.math.τ * vector.direction),
+      x: point.x + magnitudeX * Math.sin(this.math.τ * direction),
+      y: point.y + magnitudeY * Math.cos(this.math.τ * direction),
       flag: {
         vector: true
       }
@@ -50,13 +50,32 @@ export class PointService {
     );
   }
 
+  private generateRandomPoints(): Point[] {
+    this.prepareEntryPoints();
+
+    return d3.range(this.config.points).map(() => {
+      const point = {
+        x: this.randomX,
+        y: this.randomY
+      };
+
+      return {
+        ...point,
+        distanceToCenter: this.math.Δ(point, this.matrix.center)
+      };
+    });
+  }
+
   private *shiftEntryPoint(
     point: Point,
     vector: number,
     startPositive: boolean = true
   ) {
-    const genShiftX = this.math.shiftNumber(this.config.margin.entry, vector, startPositive);
-    const genShiftY = this.math.shiftNumber(this.config.margin.entry, vector, startPositive);
+    const { margin } = this.config;
+    const { entry } = margin;
+
+    const genShiftX = this.math.shiftNumber(entry, vector, startPositive);
+    const genShiftY = this.math.shiftNumber(entry, vector, startPositive);
 
     while (true) {
       yield {
@@ -76,19 +95,9 @@ export class PointService {
   }
 
   public distribute(): Point[] {
-    this.prepareEntryPoints();
+    const randomPoints = this.generateRandomPoints();
 
-    return d3.range(this.config.points).map(() => {
-      const point = {
-        x: this.randomX,
-        y: this.randomY
-      };
-
-      return {
-        ...point,
-        distanceToCenter: this.math.Δ(point, this.matrix.center)
-      };
-    });
+    return randomPoints;
   }
 
   public appendRadians(points: Point[]): Point[] {

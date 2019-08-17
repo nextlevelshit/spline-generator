@@ -29,8 +29,8 @@ export class NoiseService {
     return num + num * d3.randomNormal(0, leverage)();
   }
 
-  public init(): any {
-    return d3.range(this.config.points).map(() => {
+  public init(amountOfPoints: number): any {
+    return d3.range(amountOfPoints).map(() => {
       return Simplex.create(Math.floor(Math.random() * 100));
     });
   }
@@ -78,6 +78,7 @@ export class NoiseService {
    * @param samples
    */
   public paths(samples: Point[][]) {
+    const { debugging } = this.config;
     // Create shadow group for appending
     // animation trail paths
     const group = d3.select(this.matrix.svg)
@@ -100,7 +101,9 @@ export class NoiseService {
     });
     // Delete shadow group after it
     // is not needed anymore
-    // group.remove();
+    if (!debugging) {
+      group.remove();
+    }
 
     return paths;
   }

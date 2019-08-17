@@ -20,8 +20,7 @@ export class GraphService {
   private spline = d3.line()
     .x(p => p.x)
     .y(p => p.y)
-    .curve(d3.curveBasis);
-
+    .curve(d3.curveBundle.beta(1));
   /**
    * Set defaults for graphs if any parameter
    * has been left empty.
@@ -44,13 +43,22 @@ export class GraphService {
   }
 
   private drawAllSplines(): void {
-    this.graphs.forEach(
-      graph => {
-        this.curves.splines(graph.points).forEach(
-          spline => {
-            this.drawSpline(spline, graph.stroke);
+    const { debugging } = this.config;
+    const { context } = this.matrix;
 
-            if (this.config.debugging) {
+    this.graphs.forEach(
+      ({ points, stroke }) => {
+
+        context.lineWidth = stroke.width;
+        context.strokeStyle = stroke.color;
+        // context.globalCompositeOperation = 'source-over';
+
+        this.drawMarginLine(points);
+        this.curves.splines(points).forEach(
+          spline => {
+            this.drawSpline(spline, stroke);
+
+            if (debugging) {
               this.drawPointsOfSpline(spline);
             }
           }
@@ -59,16 +67,40 @@ export class GraphService {
     );
   }
 
+  private drawLine(p1: Point, p2: Point): void {
+    const { context } = this.matrix;
+
+    context.beginPath();
+    // context.lineWidth = stroke.width;
+    // context.strokeStyle = stroke.color;
+    // context.globalCompositeOperation = 'source-over';
+    context.moveTo(p1.x, p1.y);
+    context.lineTo(p2.x, p2.y);
+    context.stroke();
+    context.closePath();
+  }
+
   private drawSpline(points: Point[], stroke: any): void {
     const { context } = this.matrix;
 
     context.beginPath();
-    context.lineWidth = stroke.width;
-    context.strokeStyle = stroke.color;
-    context.globalCompositeOperation = 'source-over';
     this.spline(points);
     context.stroke();
     context.closePath();
+  }
+
+  private drawMarginLine(points: Point[]): void {
+    const s1 = points.slice(0)[0];
+    const s2 = points.slice(1)[0];
+    const sR = this.math.radians(s1, s2);
+    const e1 = points.slice(-1)[0];
+    const e2 = points.slice(-2)[0];
+    const eR = this.math.radians(e1, e2);
+
+    this.drawLine(s1, { x: 0, y: s1.y});
+    this.drawLine(s1, { x: 0, y: s1.y});
+    this.drawLine(e1, { x: e1.x, y: 0});
+    this.drawLine(e1, { x: e1.x, y: 0});
   }
 
   private drawPointsOfSpline(points: Point[]): void {
@@ -77,10 +109,10 @@ export class GraphService {
     );
   }
 
-  private drawPoint(point: Point): void {
+  private drawPoint(point: Point, color: string = 'rgba(0,0,0,0.1)'): void {
     const { context } = this.matrix;
 
-    context.fillStyle = this.config.color;
+    context.fillStyle = color;
     context.beginPath();
     context.arc(point.x, point.y, 4, 0, this.math.τ, true);
     context.fill();
@@ -121,7 +153,7 @@ export class GraphService {
   public draw(): void {
     this.matrix.clear();
     this.spline.context(this.matrix.context);
-    // this.curves.appendRadians();
+    this.curves.appendRadians();
     this.drawAllSplines();
   }
 

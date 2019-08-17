@@ -48,9 +48,9 @@ export class ConfigService {
         width: 1,
         colors: ['#000000']
       },
+      background: 'transparent',
       animation: {
         enabled: false,
-        fps: 60,
         frequency: 16,
         amplitude: 4,
         radius: 30,
@@ -119,6 +119,10 @@ export class ConfigService {
         color: this.colors.next().value
       }
     };
+  }
+
+  public get background(): string {
+    return this.config.background;
   }
 
   public get all(): Config {
