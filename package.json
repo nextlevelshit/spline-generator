@@ -1,6 +1,6 @@
 {
   "name": "spline-generator",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot -o",
@@ -13,8 +13,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^0.1000.7",
     "@angular/animations": "~10.0.6",
     "@angular/common": "~10.0.6",
     "@angular/compiler": "~10.0.6",
@@ -25,17 +25,17 @@
     "@angular/router": "~10.0.6",
     "d3": "^5.9.1",
     "rxjs": "~6.5.5",
-    "tslib": "^2.0.0",
     "tooloud": "^2.0.4",
+    "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1000.5",
-    "@angular/cli": "~10.0.5",
+    "@angular-devkit/build-ng-packagr": "~0.13.0",
+    "@angular/cli": "^10.0.7",
     "@angular/compiler-cli": "~10.0.6",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -46,8 +46,8 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-packagr": "^4.2.0",
     "protractor": "~7.0.0",
-    "tsickle": ">=0.34.0",
     "ts-node": "~8.3.0",
+    "tsickle": ">=0.34.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   }
