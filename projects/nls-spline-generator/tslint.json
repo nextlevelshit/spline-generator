@@ -1,7 +1,6 @@
 {
   "extends": "../../tslint.json",
   "rules": {
-    "no-redundant-jsdoc": false,
     "directive-selector": [
       true,
       "attribute",
