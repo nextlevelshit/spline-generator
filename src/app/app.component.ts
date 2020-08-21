@@ -15,7 +15,7 @@ export class AppComponent {
       points: 4,
       graphs: 2,
       splines: 20,
-      overshoot: 0.3,
+      overshoot: 0.8,
       margin: {
         spline: 30,
         entry: 5,
@@ -44,7 +44,7 @@ export class AppComponent {
       },
       background: '#fff',
       animation: {
-        enabled: false,
+        enabled: true,
         amplitude: 0.4,
         radius: 90,
         frequency: 7,

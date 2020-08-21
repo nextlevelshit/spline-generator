@@ -1,6 +1,11 @@
 {
   "name": "nls-spline-generator",
+<<<<<<< HEAD
   "version": "1.4.0",
+=======
+  "version": "2.0.0",
+  "license": "Apache-2.0",
+>>>>>>> major/angular-update
   "repository": {
     "type": "git",
     "url": "https://github.com/nextlevelshit/spline-generator"
@@ -8,6 +13,7 @@
   "author": {
     "name": "Michael Czechowski",
     "email": "mail@dailysh.it",
+<<<<<<< HEAD
     "url": "https://dailysh.it"
   },
   "peerDependencies": {
@@ -15,5 +21,17 @@
     "@angular/core": "~9.0.0-next.2",
     "d3": "^5.9.1",
     "tooloud": "^2.0.4"
+=======
+    "url": "httpxs://dailysh.it"
+  },
+  "peerDependencies": {
+    "@angular/common": "^10.0.11",
+    "@angular/core": "^10.0.11",
+    "d3": "^5.9.1",
+    "tooloud": "^2.0.4"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+>>>>>>> major/angular-update
   }
 }

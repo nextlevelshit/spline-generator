@@ -17,7 +17,11 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/nls-spline-generator'),
+<<<<<<< HEAD
       reports: ['html', 'lcovonly'],
+=======
+      reports: ['html', 'lcovonly', 'text-summary'],
+>>>>>>> major/angular-update
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
@@ -26,6 +30,11 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+<<<<<<< HEAD
     singleRun: false
+=======
+    singleRun: false,
+    restartOnFileChange: true
+>>>>>>> major/angular-update
   });
 };

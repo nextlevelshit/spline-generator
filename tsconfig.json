@@ -12,6 +12,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/nls-spline-generator/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/nls-spline-generator/tsconfig.spec.json"
     }
 ]
 }
