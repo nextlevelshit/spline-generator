@@ -70,7 +70,7 @@ export class PointService {
     point: Point,
     vector: number,
     startPositive: boolean = true
-  ) {
+  ): Generator<Point> {
     const { margin } = this.config;
     const { entry } = margin;
 
@@ -133,7 +133,7 @@ export class PointService {
     ticksAverage: number = 500,
     clockwise: boolean = Math.random() >= 0.5,
     start: number = Math.random()
-  ) {
+  ): Generator<Point> {
     const totalLength = path.getTotalLength();
     const direction = (clockwise) ? totalLength : 0;
     // const ticks = Math.floor(

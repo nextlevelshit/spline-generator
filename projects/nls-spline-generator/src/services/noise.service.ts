@@ -38,9 +38,6 @@ export class NoiseService {
    * Generating lists of samples for the animation trail. The
    * animation trail is a circular path, but distorted through
    * simplex noise adaption.
-   *
-   * @param noise
-   * @param points
    */
   public samples(noise: any, points: Point[]): Point[][] {
     return noise.map((simplex, i) => {
@@ -73,10 +70,8 @@ export class NoiseService {
   /**
    * Generate pseudo-paths out of each sample to calculate later
    * the animation steps each tick.
-   *
-   * @param samples
    */
-  public paths(samples: Point[][]) {
+  public paths(samples: Point[][]): Point[][] {
     const { debugging } = this.config;
     // Create shadow group for appending
     // animation trail paths
@@ -92,8 +87,8 @@ export class NoiseService {
       const path = group
         .append('path')
         .attr('d', d3.line()
-        .x(p => p.x)
-        .y(p => p.y)
+        .x((p: Point) => p.x)
+        .y((p: Point) => p.y)
         .curve(d3.curveBasisClosed)(sample)
       );
       return path;

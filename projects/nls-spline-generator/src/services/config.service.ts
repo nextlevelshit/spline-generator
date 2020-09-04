@@ -69,7 +69,7 @@ export class ConfigService {
     }
   }
 
-  public reset(input: Config) {
+  public reset(input: Config): void {
     this.config = {
       ...this.defaults,
       ...input
