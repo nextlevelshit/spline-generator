@@ -20,7 +20,7 @@ export class GraphService {
   private spline = d3.line()
     .x((p: Point) => p.x)
     .y((p: Point) => p.y)
-    .curve(d3.curveBundle.beta(1));
+    .curve(d3.curveBundle.beta(.8));
   /**
    * Set defaults for graphs if any parameter
    * has been left empty.
@@ -51,12 +51,12 @@ export class GraphService {
 
         context.lineWidth = stroke.width;
         context.strokeStyle = stroke.color;
-        // context.globalCompositeOperation = 'source-over';
+        context.globalCompositeOperation = 'source-over';
 
         this.drawMarginLine(points);
         this.curves.splines(points).forEach(
           spline => {
-            this.drawSpline(spline, stroke);
+            this.drawSpline(spline, stroke, 2);
 
             if (debugging) {
               this.drawPointsOfSpline(spline);
@@ -67,26 +67,45 @@ export class GraphService {
     );
   }
 
-  private drawLine(p1: Point, p2: Point): void {
+  private drawLine(p1: Point, p2: Point, stroke?: any, remainder: number = this.config.splines): void {
     const { context } = this.matrix;
 
+    if (stroke) {
+      context.lineWidth = stroke.width;
+      context.strokeStyle = stroke.color;
+      context.globalCompositeOperation = 'source-over';
+    }
     context.beginPath();
-    // context.lineWidth = stroke.width;
-    // context.strokeStyle = stroke.color;
-    // context.globalCompositeOperation = 'source-over';
     context.moveTo(p1.x, p1.y);
     context.lineTo(p2.x, p2.y);
     context.stroke();
     context.closePath();
+
+    // if (remainder && remainder - 1 > 0) {
+    //   this.drawLine(p1, p2, {
+    //     width: this.config.stroke.width * 8,
+    //     color: 'rgba(0, 0, 0, .1)'
+    //   }, remainder - 1);
+    // }
   }
 
-  private drawSpline(points: Point[], stroke: any): void {
+  private drawSpline(points: Point[], stroke: any, remainder: number = 1): void {
     const { context } = this.matrix;
 
+    context.lineWidth = stroke.width;
+    context.strokeStyle = stroke.color;
     context.beginPath();
     this.spline(points);
     context.stroke();
     context.closePath();
+
+    if (remainder && remainder - 1 > 0) {
+      this.drawSpline(points, {
+        width: stroke.width * 2,
+        color: this.convertHexToRGBA(stroke.color, .3)
+      },
+      remainder - 1);
+    }
   }
 
   private drawMarginLine(points: Point[]): void {
@@ -149,6 +168,15 @@ export class GraphService {
     this.draw();
     this.startAnimation();
   }
+
+  private convertHexToRGBA(hex: string, opacity: number): string {
+    const tempHex = hex.replace('#', '');
+    const r = parseInt(tempHex.substring(0, 2), 16);
+    const g = parseInt(tempHex.substring(2, 4), 16);
+    const b = parseInt(tempHex.substring(4, 6), 16);
+
+    return `rgba(${r},${g},${b},${opacity})`;
+  };
 
   public draw(): void {
     this.matrix.clear();

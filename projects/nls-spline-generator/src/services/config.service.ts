@@ -1,5 +1,6 @@
 import { Config } from './../models/config.model';
 import { Injectable } from '@angular/core';
+import { Point } from '../models/point.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ConfigService {
     this.colors = this.colorIterator();
 
     this.defaults = {
-      points: 3,
+      pointsCount: 3,
       graphs: 1,
       splines: 1,
       overshoot: 0.4,
@@ -69,6 +70,12 @@ export class ConfigService {
     }
   }
 
+  private splitIntoChunksOf(chunkSize: number, list: any[], tail: any[] = []): any[] {
+    return (list.length === 0)
+      ? tail
+      : this.splitIntoChunksOf(chunkSize, list.slice(chunkSize), tail.concat([list.slice(0, chunkSize)]));
+  }
+
   public reset(input: Config): void {
     this.config = {
       ...this.defaults,
@@ -76,8 +83,17 @@ export class ConfigService {
     };
   }
 
-  public get points(): number {
-    return this.config.points;
+  public get pointsCount(): number {
+    return this.config.pointsCount;
+  }
+
+  public get startingPoints(): Point[] {
+    const { startingPoints, pointsCount } = this.config;
+
+    return startingPoints && pointsCount === startingPoints.length / 2
+      ? this.splitIntoChunksOf(2, startingPoints)
+        .map(p => ({ x: p[0], y: p[1]}))
+      : [];
   }
 
   public get overshoot(): number {
@@ -90,6 +106,10 @@ export class ConfigService {
 
   public get splines(): number {
     return this.config.splines;
+  }
+
+  public get stroke(): { width: number, colors: string[] } {
+    return this.config.stroke;
   }
 
   public get color(): string {

@@ -52,12 +52,13 @@ export class CurveService {
       const samples = this.noise.samples(simplexNoise, points);
       const paths = this.noise.paths(samples);
       const generators = this.noise.generators(paths)
-        .sort((a: Iterator<Point>, b: Iterator<Point>) => {
-          const deltaAtoCenter = this.math.Δ(a.next().value, center);
-          const deltaBtoCenter = this.math.Δ(b.next().value, center);
+        // .sort((a: Iterator<Point>, b: Iterator<Point>) => {
+        //   const deltaAtoCenter = this.math.Δ(a.next().value, center);
+        //   const deltaBtoCenter = this.math.Δ(b.next().value, center);
 
-          return a.next().value.distanceToCenter - b.next().value.distanceToCenter;
-        }).reduceRight((acc, val, j) => {
+        //   return a.next().value.distanceToCenter - b.next().value.distanceToCenter;
+        // })
+        .reduceRight((acc, val, j) => {
           return j % 2 === 0 ? [...acc, val] : [val, ...acc];
         }, []);
 

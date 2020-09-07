@@ -1,7 +1,5 @@
 import { GraphService } from './../services/graph.service';
 import { CurveService } from './../services/curve.service';
-import { PointService } from './../services/point.service';
-import { Curve } from './../models/curve.model';
 import { MatrixService } from './../services/matrix.service';
 import { Config } from './../models/config.model';
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, HostListener, Renderer2 } from '@angular/core';
@@ -17,7 +15,7 @@ import * as d3 from 'd3';
 })
 export class NlsSplineGeneratorComponent implements OnChanges {
 
-  private resizeTimeout: any;
+  private resizeDebounce: any;
 
   @Input() configInput: Config;
   @ViewChild('matrix', { static: true }) matrixEl;
@@ -29,13 +27,12 @@ export class NlsSplineGeneratorComponent implements OnChanges {
   }
 
   constructor(
-    private el: ElementRef,
     private renderer: Renderer2,
     private matrix: MatrixService,
     private config: ConfigService,
     private curves: CurveService,
     private graphs: GraphService,
-    private points: PointService
+    public el: ElementRef,
   ) {
   }
 
@@ -95,8 +92,18 @@ export class NlsSplineGeneratorComponent implements OnChanges {
    * Reset configuration and merge with incoming
    * config parameters from components input.
    */
-  private resetConfig(): void {
-    this.config.reset(this.configInput);
+  public resetConfig(config?: Config): void {
+    if (config) {
+      this.config.reset(config);
+      this.fadeOut();
+      this.resetMatrix();
+      this.resetCurves();
+      this.resetGraphs();
+      this.drawGraphs();
+      this.fadeIn();
+    } else {
+      this.config.reset(this.configInput);
+    }
   }
 
   private toggleAnimation(): void {
@@ -111,10 +118,10 @@ export class NlsSplineGeneratorComponent implements OnChanges {
 
   private startResizeTimeout(): void {
     this.fadeOut();
-    if (this.resizeTimeout) {
-      this.resizeTimeout.stop();
+    if (this.resizeDebounce) {
+      this.resizeDebounce.stop();
     }
-    this.resizeTimeout = d3.timeout(() => {
+    this.resizeDebounce = d3.timeout(() => {
       this.init();
     }, 360);
   }

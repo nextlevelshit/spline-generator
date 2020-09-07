@@ -1,0 +1,2 @@
+## Deprecated
+- Renamed `points` into `pointsCount` inside of config

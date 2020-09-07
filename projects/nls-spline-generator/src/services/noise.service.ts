@@ -75,13 +75,16 @@ export class NoiseService {
     const { debugging } = this.config;
     // Create shadow group for appending
     // animation trail paths
-    const group = d3.select(this.matrix.svg)
-      .append('g')
-      .attr('fill', 'none')
-      .attr('fill-opacity', 0)
-      .attr('stroke-opacity', 1)
-      .attr('stroke-width', 1)
-      .attr('stroke', '#000');
+    const group = debugging
+      ? d3.select(this.matrix.svg)
+        .append('g')
+        .attr('fill', 'none')
+        .attr('fill-opacity', 0)
+        .attr('stroke-opacity', 1)
+        .attr('stroke-width', 1)
+        .attr('stroke', '#000')
+      : d3.select(this.matrix.svg)
+        .append('g');
 
     const paths = samples.map(sample => {
       const path = group

@@ -12,8 +12,6 @@ export class PointService {
 
   private entryShiftIn: Iterator<Point>;
   private entryShiftOut: Iterator<Point>;
-  private previousEntryPointIn: Point;
-  private previousEntryPointOut: Point;
 
   constructor(
     private config: ConfigService,
@@ -50,22 +48,6 @@ export class PointService {
     );
   }
 
-  private generateRandomPoints(): Point[] {
-    this.prepareEntryPoints();
-
-    return d3.range(this.config.points).map(() => {
-      const point = {
-        x: this.randomX,
-        y: this.randomY
-      };
-
-      return {
-        ...point,
-        distanceToCenter: this.math.Δ(point, this.matrix.center)
-      };
-    });
-  }
-
   private *shiftEntryPoint(
     point: Point,
     vector: number,
@@ -95,9 +77,21 @@ export class PointService {
   }
 
   public distribute(): Point[] {
-    const randomPoints = this.generateRandomPoints();
+    const { startingPoints } = this.config;
 
-    return randomPoints;
+    const points = startingPoints
+      ? startingPoints.map((p: Point) => ({
+          x: this.matrix.width * p.x,
+          y: this.matrix.height * p.y,
+        }))
+      : Array(this.config.pointsCount).map(() => ({
+          x: this.randomX,
+          y: this.randomY
+        }));
+
+    this.prepareEntryPoints();
+
+    return points.map(p => ({ ...p, distanceToCenter: this.math.Δ(p, this.matrix.center) }));
   }
 
   public appendRadians(points: Point[]): Point[] {

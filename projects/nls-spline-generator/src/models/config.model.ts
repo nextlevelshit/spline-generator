@@ -1,3 +1,5 @@
+import { Point } from './point.model';
+
 /**
  * The main Configuration of graphs, vectors and canvas.
  */
@@ -5,7 +7,13 @@ export interface Config {
   /**
    * Amount of orientation points, excl. entry and vector points
    */
-  points?: number;
+  pointsCount?: number;
+  /**
+   * List of Starting Points on a matrix of [0,0,1,1]
+   *
+   * @example [x1, y1, x2, y2, ..., xn, yn]
+   */
+  startingPoints?: number[];
   /**
    * Points distribution factor depending on canvas size
    */
